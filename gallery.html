@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Client Gallery — Sapphire Works</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;1,6..96,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=switzer@400,500,600&display=swap">
+<style>
+  :root{
+    --cream:#F4EFE6;
+    --paper:#FBF8F2;
+    --dove:#C7C0B7;
+    --chocolate:#55423C;
+    --sienna:#3D1417;
+    --raspberry:#180F0D;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{
+    background:var(--raspberry);
+    color:var(--dove);
+    font-family:'Switzer',sans-serif;
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{font-family:'Bodoni Moda',serif;font-weight:500;line-height:1.15;}
+  a{color:inherit;text-decoration:none;}
+  img{display:block;width:100%;height:100%;object-fit:cover;}
+
+  /* ---------- TOP BAR ---------- */
+  .topbar{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:28px 5vw;
+  }
+  .logotype{
+    font-family:'Bodoni Moda',serif;
+    font-size:1rem;
+    letter-spacing:0.22em;
+    color:var(--paper);
+  }
+  .back-link{
+    font-size:0.72rem;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    color:var(--dove);
+    display:flex;align-items:center;gap:8px;
+  }
+
+  /* ---------- LOGIN VIEW ---------- */
+  #loginView{
+    min-height:78vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:40px 5vw;
+  }
+  .login-card{
+    max-width:420px;
+    width:100%;
+    text-align:center;
+  }
+  .login-card .eyebrow{
+    font-size:0.7rem;
+    letter-spacing:0.26em;
+    text-transform:uppercase;
+    color:var(--dove);
+    opacity:0.75;
+    display:block;
+    margin-bottom:20px;
+  }
+  .login-card h1{
+    font-size:clamp(2rem,4vw,2.7rem);
+    font-style:italic;
+    color:var(--paper);
+    margin-bottom:18px;
+  }
+  .login-card p{
+    color:var(--dove);
+    line-height:1.7;
+    margin-bottom:44px;
+    font-size:0.95rem;
+  }
+  .login-field{margin-bottom:26px;text-align:left;}
+  .login-field label{
+    display:block;
+    font-size:0.66rem;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--dove);
+    opacity:0.6;
+    margin-bottom:10px;
+  }
+  .login-field input{
+    width:100%;
+    background:transparent;
+    border:none;
+    border-bottom:1px solid rgba(199,192,183,0.3);
+    padding:10px 0;
+    font-family:'Switzer',sans-serif;
+    font-size:1rem;
+    color:var(--paper);
+    outline:none;
+    transition:border-color 0.3s ease;
+  }
+  .login-field input:focus{border-color:var(--paper);}
+  .login-btn{
+    width:100%;
+    background:var(--paper);
+    color:var(--sienna);
+    border:none;
+    padding:16px;
+    font-size:0.76rem;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    cursor:pointer;
+    margin-top:10px;
+    transition:background 0.3s ease, transform 0.3s ease;
+  }
+  .login-btn:hover{background:var(--dove);transform:translateY(-2px);}
+  .login-btn:disabled{opacity:0.5;cursor:not-allowed;transform:none;}
+  .login-error{
+    color:#D98072;
+    font-size:0.82rem;
+    margin-top:18px;
+    min-height:18px;
+  }
+  .login-hint{
+    margin-top:36px;
+    font-size:0.78rem;
+    color:var(--dove);
+    opacity:0.55;
+    line-height:1.6;
+  }
+
+  /* ---------- GALLERY VIEW ---------- */
+  #galleryView{display:none;background:var(--cream);min-height:100vh;color:var(--chocolate);}
+  .gallery-header{
+    padding:100px 5vw 60px;
+    text-align:center;
+    background:var(--raspberry);
+    color:var(--paper);
+  }
+  .gallery-header .eyebrow{
+    font-size:0.7rem;letter-spacing:0.26em;text-transform:uppercase;
+    color:var(--dove);opacity:0.8;display:block;margin-bottom:20px;
+  }
+  .gallery-header h1{
+    font-size:clamp(2.2rem,4.5vw,3.6rem);
+    font-style:italic;
+  }
+  .gallery-header p{
+    margin-top:18px;color:var(--dove);font-size:0.95rem;
+  }
+  .gallery-toolbar{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:36px 5vw;
+    flex-wrap:wrap;gap:16px;
+  }
+  .gallery-count{font-size:0.85rem;color:var(--chocolate);opacity:0.7;}
+  .toolbar-actions{display:flex;gap:16px;}
+  .toolbar-btn{
+    font-size:0.72rem;letter-spacing:0.14em;text-transform:uppercase;
+    border:1px solid rgba(61,20,23,0.25);
+    padding:11px 22px;
+    background:transparent;
+    color:var(--sienna);
+    cursor:pointer;
+    transition:background 0.3s ease, color 0.3s ease;
+  }
+  .toolbar-btn:hover{background:var(--sienna);color:var(--paper);}
+  .gallery-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:6px;
+    padding:0 5vw 120px;
+  }
+  .gallery-grid .g-tile{
+    aspect-ratio:4/5;
+    overflow:hidden;
+    position:relative;
+    cursor:pointer;
+  }
+  .gallery-grid .g-tile img{transition:transform 0.6s ease;}
+  .gallery-grid .g-tile:hover img{transform:scale(1.05);}
+  @media (max-width:860px){
+    .gallery-grid{grid-template-columns:repeat(2,1fr);}
+  }
+
+  .logout-link{
+    font-size:0.72rem;letter-spacing:0.14em;text-transform:uppercase;
+    color:var(--dove);cursor:pointer;background:none;border:none;
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a href="index.html" class="logotype">SAPPHIRE WORKS</a>
+  <a href="index.html" class="back-link">← Back to site</a>
+</div>
+
+<!-- LOGIN -->
+<section id="loginView">
+  <div class="login-card">
+    <span class="eyebrow">Client Gallery</span>
+    <h1>Your Story, Delivered.</h1>
+    <p>Enter the email and password sent to you after your session to view and download your private gallery.</p>
+    <form id="loginForm">
+      <div class="login-field">
+        <label>Email</label>
+        <input type="email" id="loginEmail" required>
+      </div>
+      <div class="login-field">
+        <label>Password</label>
+        <input type="password" id="loginPassword" required>
+      </div>
+      <button type="submit" class="login-btn" id="loginBtn">View Gallery</button>
+      <div class="login-error" id="loginError"></div>
+    </form>
+    <p class="login-hint">Can't find your access details? Email hello@sapphireworks.com and we'll resend them.</p>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="galleryView">
+  <div class="gallery-header">
+    <span class="eyebrow">Welcome Back</span>
+    <h1 id="coupleNames">Your Gallery</h1>
+    <p id="galleryDate"></p>
+  </div>
+  <div class="gallery-toolbar">
+    <span class="gallery-count" id="galleryCount"></span>
+    <div class="toolbar-actions">
+      <button class="toolbar-btn" id="downloadAllBtn">Download All</button>
+      <button class="toolbar-btn logout-link" id="logoutBtn">Log Out</button>
+    </div>
+  </div>
+  <div class="gallery-grid" id="galleryGrid"></div>
+</section>
+
+<script type="module">
+  // ============================================================
+  // FIREBASE SETUP — Angela, replace this block with your project's config
+  // (Firebase console → Project settings → General → Your apps → SDK config)
+  // ============================================================
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+  import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_PROJECT.firebaseapp.com",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_PROJECT.appspot.com",
+    messagingSenderId: "YOUR_SENDER_ID",
+    appId: "YOUR_APP_ID"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  // ============================================================
+  // HOW THIS WORKS (for Angela):
+  // 1. In Firebase Console → Authentication → enable Email/Password sign-in.
+  // 2. For each couple, manually add a user under Authentication → Users
+  //    (their email + a password you generate and send them after the wedding).
+  // 3. In Firestore, create a collection called "galleries".
+  //    Each document ID = the couple's Firebase Auth UID (find this in the
+  //    Authentication tab after creating their login).
+  //    Document fields:
+  //      names: "Renata & Josh"
+  //      date: "March 2026 · Amalfi Coast"
+  //      images: ["https://...jpg", "https://...jpg", ...]
+  //      downloadUrl: "https://your-drive-or-wetransfer-link.com"
+  // 4. That's it — when they log in, this page pulls their doc by UID
+  //    and renders their photos. Every couple only ever sees their own gallery.
+  // ============================================================
+
+  const loginForm = document.getElementById('loginForm');
+  const loginBtn = document.getElementById('loginBtn');
+  const loginError = document.getElementById('loginError');
+  const loginView = document.getElementById('loginView');
+  const galleryView = document.getElementById('galleryView');
+
+  loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    loginError.textContent = '';
+    loginBtn.disabled = true;
+    loginBtn.textContent = 'Checking...';
+    const email = document.getElementById('loginEmail').value.trim();
+    const password = document.getElementById('loginPassword').value;
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      // onAuthStateChanged below handles showing the gallery
+    } catch (err) {
+      loginError.textContent = "That email or password doesn't match our records. Double check your details or reach out to us.";
+      loginBtn.disabled = false;
+      loginBtn.textContent = 'View Gallery';
+    }
+  });
+
+  document.getElementById('logoutBtn').addEventListener('click', () => {
+    signOut(auth);
+  });
+
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      try {
+        const snap = await getDoc(doc(db, 'galleries', user.uid));
+        if (snap.exists()) {
+          renderGallery(snap.data());
+          loginView.style.display = 'none';
+          galleryView.style.display = 'block';
+        } else {
+          loginError.textContent = "We couldn't find a gallery linked to this account yet. Contact us and we'll set it up.";
+          signOut(auth);
+        }
+      } catch (err) {
+        loginError.textContent = 'Something went wrong loading your gallery. Please try again.';
+      }
+    } else {
+      loginView.style.display = 'flex';
+      galleryView.style.display = 'none';
+      loginBtn.disabled = false;
+      loginBtn.textContent = 'View Gallery';
+    }
+  });
+
+  function renderGallery(data){
+    document.getElementById('coupleNames').textContent = data.names || 'Your Gallery';
+    document.getElementById('galleryDate').textContent = data.date || '';
+    const images = data.images || [];
+    document.getElementById('galleryCount').textContent = images.length + ' photos';
+    const grid = document.getElementById('galleryGrid');
+    grid.innerHTML = '';
+    images.forEach(src => {
+      const tile = document.createElement('div');
+      tile.className = 'g-tile';
+      tile.innerHTML = `<img src="${src}" alt="Wedding photo">`;
+      tile.addEventListener('click', () => window.open(src, '_blank'));
+      grid.appendChild(tile);
+    });
+    const downloadBtn = document.getElementById('downloadAllBtn');
+    downloadBtn.onclick = () => {
+      if(data.downloadUrl) window.open(data.downloadUrl, '_blank');
+      else alert('No download link set for this gallery yet.');
+    };
+  }
+
+  // ------------------------------------------------------------
+  // DEMO MODE — remove this block once your real Firebase project
+  // is connected. It just lets you preview the gallery UI without
+  // Firebase set up yet, using the "demo" / "demo123" login below.
+  // ------------------------------------------------------------
+  const DEMO_MODE = true;
+  if (DEMO_MODE) {
+    loginForm.addEventListener('submit', function demoHandler(e){
+      const email = document.getElementById('loginEmail').value.trim();
+      const password = document.getElementById('loginPassword').value;
+      if (email === 'demo@sapphireworks.com' && password === 'demo123') {
+        e.stopImmediatePropagation();
+        e.preventDefault();
+        renderGallery({
+          names: 'Renata & Josh',
+          date: 'March 2026 · Amalfi Coast, Italy',
+          images: [
+            'https://images.pexels.com/photos/35553660/pexels-photo-35553660.jpeg?auto=compress&cs=tinysrgb&w=800',
+            'https://images.pexels.com/photos/8815284/pexels-photo-8815284.jpeg?auto=compress&cs=tinysrgb&w=800',
+            'https://images.pexels.com/photos/35984124/pexels-photo-35984124.jpeg?auto=compress&cs=tinysrgb&w=800',
+            'https://images.pexels.com/photos/23641783/pexels-photo-23641783.jpeg?auto=compress&cs=tinysrgb&w=800',
+            'https://images.pexels.com/photos/9721887/pexels-photo-9721887.jpeg?auto=compress&cs=tinysrgb&w=800',
+            'https://images.pexels.com/photos/5004864/pexels-photo-5004864.jpeg?auto=compress&cs=tinysrgb&w=800',
+            'https://images.pexels.com/photos/33434578/pexels-photo-33434578.jpeg?auto=compress&cs=tinysrgb&w=800',
+            'https://images.pexels.com/photos/27939987/pexels-photo-27939987.jpeg?auto=compress&cs=tinysrgb&w=800',
+            'https://images.pexels.com/photos/30679828/pexels-photo-30679828.jpeg?auto=compress&cs=tinysrgb&w=800'
+          ],
+          downloadUrl: '#'
+        });
+        loginView.style.display = 'none';
+        galleryView.style.display = 'block';
+      }
+    }, true);
+  }
+</script>
+
+</body>
+</html>
