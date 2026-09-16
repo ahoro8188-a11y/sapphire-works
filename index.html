@@ -473,6 +473,26 @@
     width:max-content;
     will-change:transform;
   }
+  .portfolio-row.row-1.is-looping,
+  .portfolio-row.row-3.is-looping{
+    animation:rowLeft 48s linear infinite;
+  }
+  .portfolio-row.row-2.is-looping{
+    animation:rowRight 42s linear infinite;
+  }
+  .portfolio-row.row-3.is-looping{animation-duration:54s;}
+  .portfolio-row-wrap:hover .portfolio-row,
+  .portfolio-row.paused{
+    animation-play-state:paused;
+  }
+  @keyframes rowLeft{
+    from{transform:translateX(0);}
+    to{transform:translateX(-50%);}
+  }
+  @keyframes rowRight{
+    from{transform:translateX(-50%);}
+    to{transform:translateX(0);}
+  }
   .portfolio-row .tile{
     width:340px;
     height:440px;
@@ -630,33 +650,104 @@
 
   /* ---------- HEIRLOOM ALBUM ---------- */
   .heirloom{
-    background:var(--paper);
-    padding:80px 0 100px;
-    border-top:1px solid rgba(61,20,23,0.08);
+    background:var(--raspberry);
+    color:var(--dove);
+    padding:110px 5vw 120px;
+    text-align:center;
+    position:relative;
+    overflow:hidden;
   }
-  .heirloom-grid{
+  .heirloom-watermark{
+    position:absolute;
+    left:50%;top:42%;
+    transform:translate(-50%,-50%);
+    font-family:'Bodoni Moda',serif;
+    font-style:italic;
+    font-size:clamp(6rem,18vw,14rem);
+    color:var(--paper);
+    opacity:0.04;
+    pointer-events:none;
+    white-space:nowrap;
+    line-height:0.8;
+  }
+  .heirloom-inner{position:relative;z-index:1;max-width:980px;margin:0 auto;}
+  .heirloom h2{
+    color:var(--paper);
+    font-size:clamp(2.4rem,5vw,4rem);
+    font-style:italic;
+    font-weight:400;
+    margin-bottom:48px;
+  }
+  .heirloom-spread{
+    display:flex;
+    justify-content:center;
+    align-items:flex-end;
+    gap:0;
+    height:340px;
+    margin:0 auto 36px;
+    position:relative;
+  }
+  .heirloom-spread .shot{
+    position:absolute;
+    overflow:hidden;
+    box-shadow:0 24px 60px rgba(0,0,0,0.35);
+  }
+  .shot-a{
+    width:240px;height:300px;
+    left:50%;
+    transform:translateX(-118%) rotate(-9deg);
+    bottom:10px;
+    z-index:1;
+  }
+  .shot-b{
+    width:260px;height:340px;
+    left:50%;
+    transform:translateX(-50%) rotate(1.5deg);
+    bottom:0;
+    z-index:3;
+  }
+  .shot-c{
+    width:240px;height:300px;
+    left:50%;
+    transform:translateX(18%) rotate(8deg);
+    bottom:18px;
+    z-index:2;
+  }
+  .heirloom-lede{
+    max-width:520px;
+    margin:0 auto 40px;
+    line-height:1.85;
+    color:var(--dove);
+  }
+  .heirloom-specs{
     display:grid;
-    grid-template-columns:0.95fr 1.05fr;
-    max-width:1240px;
-    margin:0 auto;
-    min-height:560px;
+    grid-template-columns:repeat(4,1fr);
+    gap:28px;
+    max-width:860px;
+    margin:0 auto 40px;
+    text-align:left;
   }
-  .heirloom-img{min-height:520px;overflow:hidden;}
-  .heirloom-copy{
+  .heirloom-specs div{
+    border-top:1px solid var(--gilt-soft);
+    padding-top:16px;
+    font-size:0.88rem;
+    line-height:1.55;
+  }
+  .heirloom-specs span{
+    display:block;
+    font-family:'Bodoni Moda',serif;
+    font-style:italic;
+    color:var(--gilt);
+    margin-bottom:8px;
+  }
+  .heirloom-foot{
     display:flex;
     flex-direction:column;
-    justify-content:center;
-    padding:80px 7vw;
+    align-items:center;
+    gap:8px;
   }
-  .heirloom-copy h2{
-    font-size:clamp(2.2rem,3.6vw,3.2rem);
-    margin-bottom:22px;
-  }
-  .heirloom-copy p{
-    line-height:1.85;
-    max-width:440px;
-    margin-bottom:22px;
-  }
+  .heirloom .package-price{color:var(--gilt);}
+  .heirloom .text-link{color:var(--paper);border-color:var(--gilt);}
 
   /* ---------- TESTIMONIALS ---------- */
   .testimonials{
@@ -946,9 +1037,12 @@
     .nav-links a{color:var(--paper);font-size:0.95rem;}
     .nav-cta{color:var(--paper) !important;}
     .nav-toggle{display:block;}
-    .about, .package, .contact-grid, .heirloom-grid{grid-template-columns:1fr;}
+    .about, .package, .contact-grid{grid-template-columns:1fr;}
     .about-img{min-height:380px;order:-1;}
-    .heirloom-img{min-height:360px;order:-1;}
+    .heirloom-specs{grid-template-columns:1fr 1fr;}
+    .heirloom-spread{height:280px;}
+    .shot-a,.shot-c{width:150px;height:200px;}
+    .shot-b{width:170px;height:230px;}
     .letterbox{height:22px;}
     .package-stack .package:nth-child(even){direction:ltr;}
     .package-img{min-height:340px;}
@@ -960,7 +1054,8 @@
 
   @media (prefers-reduced-motion: reduce){
     html{scroll-behavior:auto;}
-    .scroll-line::after,.preloader .bar span,.marquee-track,.availability .dot{animation:none;}
+    .scroll-line::after,.preloader .bar span,.marquee-track,.availability .dot,
+    .portfolio-row.is-looping{animation:none;}
   }
 
   /* ---------- CUSTOM CURSOR ---------- */
@@ -1318,20 +1413,23 @@
 </section>
 
 <section class="heirloom" id="album">
-  <div class="heirloom-grid">
-    <div class="heirloom-img">
-      <img src="https://images.pexels.com/photos/30679828/pexels-photo-30679828.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Heirloom wedding album details">
+  <p class="heirloom-watermark" aria-hidden="true">Album</p>
+  <div class="heirloom-inner">
+    <span class="eyebrow on-dark">An Object to Keep</span>
+    <h2>Printed to be held.</h2>
+    <div class="heirloom-spread">
+      <figure class="shot shot-a"><img src="https://images.pexels.com/photos/5004864/pexels-photo-5004864.jpeg?auto=compress&cs=tinysrgb&w=700" alt="Album detail"></figure>
+      <figure class="shot shot-b"><img src="https://images.pexels.com/photos/30679828/pexels-photo-30679828.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Hands with bouquet"></figure>
+      <figure class="shot shot-c"><img src="https://images.pexels.com/photos/9721887/pexels-photo-9721887.jpeg?auto=compress&cs=tinysrgb&w=700" alt="Wedding portrait print"></figure>
     </div>
-    <div class="heirloom-copy">
-      <span class="eyebrow">An Object to Keep</span>
-      <h2>The Heirloom Album</h2>
-      <p>A single, hand-bound volume designed after you've lived with the gallery — linen or silk, foil-stamped names, photographs that sit in the hands rather than on a screen.</p>
-      <ul class="package-list">
-        <li>12×12" flush-mount, 40 sides</li>
-        <li>Linen or silk cover, foil lettering</li>
-        <li>Designed together, 8–10 weeks after your gallery</li>
-        <li>One complimentary design revision</li>
-      </ul>
+    <p class="heirloom-lede">A single hand-bound volume, designed after you've lived with the gallery — linen or silk, foil-stamped names, photographs that sit in the hands rather than on a screen.</p>
+    <div class="heirloom-specs">
+      <div><span>I</span>12×12" flush-mount, 40 sides</div>
+      <div><span>II</span>Linen or silk cover, foil lettering</div>
+      <div><span>III</span>Designed together, 8–10 weeks after the gallery</div>
+      <div><span>IV</span>One complimentary design revision</div>
+    </div>
+    <div class="heirloom-foot">
       <span class="package-price">Starting at $890 · add to any collection</span>
       <a href="#contact" class="text-link" data-collection="The Heirloom Album">Add to your inquiry</a>
     </div>
@@ -1513,6 +1611,17 @@
   window.addEventListener('scroll', onScroll);
   onScroll();
 
+  const uniqueTiles = Array.from(document.querySelectorAll('.portfolio-row .tile')).map(tile => ({
+    src: tile.querySelector('img').getAttribute('src'),
+    cap: tile.dataset.cap || ''
+  }));
+  document.querySelectorAll('.portfolio-row').forEach(row => {
+    if(!reduceMotion){
+      row.insertAdjacentHTML('beforeend', row.innerHTML);
+      row.classList.add('is-looping');
+    }
+  });
+
   const cursor = document.getElementById('cursor');
   const cursorLabel = document.getElementById('cursorLabel');
   if(!isTouch){
@@ -1530,38 +1639,47 @@
     });
   }
 
-  const allTiles = Array.from(document.querySelectorAll('.tile img'));
   const lightbox = document.getElementById('lightbox');
   const lightboxImg = document.getElementById('lightboxImg');
   const lightboxCounter = document.getElementById('lightboxCounter');
   const lightboxCap = document.getElementById('lightboxCap');
   let lbIndex = 0;
 
+  function pauseRows(pause){
+    document.querySelectorAll('.portfolio-row').forEach(row => {
+      row.classList.toggle('paused', pause);
+    });
+  }
   function openLightbox(i){
     lbIndex = i;
     updateLightbox();
     lightbox.classList.add('open');
+    pauseRows(true);
     if(lenis) lenis.stop();
     document.body.style.overflow = 'hidden';
   }
   function closeLightbox(){
     lightbox.classList.remove('open');
+    pauseRows(false);
     if(lenis) lenis.start();
     document.body.style.overflow = '';
   }
   function updateLightbox(){
-    const img = allTiles[lbIndex];
-    lightboxImg.src = img.src.replace(/w=\d+/, 'w=1600');
-    lightboxCounter.textContent = (lbIndex + 1) + ' / ' + allTiles.length;
-    const cap = img.closest('.tile')?.dataset.cap || '';
-    lightboxCap.textContent = cap;
+    const item = uniqueTiles[lbIndex];
+    lightboxImg.src = item.src.replace(/w=\d+/, 'w=1600');
+    lightboxCounter.textContent = (lbIndex + 1) + ' / ' + uniqueTiles.length;
+    lightboxCap.textContent = item.cap;
   }
-  allTiles.forEach((img, i) => {
-    img.parentElement.addEventListener('click', () => openLightbox(i));
+  document.querySelectorAll('.portfolio-row .tile').forEach(tile => {
+    tile.addEventListener('click', () => {
+      const src = tile.querySelector('img').getAttribute('src');
+      const i = uniqueTiles.findIndex(t => t.src === src);
+      openLightbox(i < 0 ? 0 : i);
+    });
   });
   document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
-  document.getElementById('lightboxNext').addEventListener('click', () => { lbIndex = (lbIndex + 1) % allTiles.length; updateLightbox(); });
-  document.getElementById('lightboxPrev').addEventListener('click', () => { lbIndex = (lbIndex - 1 + allTiles.length) % allTiles.length; updateLightbox(); });
+  document.getElementById('lightboxNext').addEventListener('click', () => { lbIndex = (lbIndex + 1) % uniqueTiles.length; updateLightbox(); });
+  document.getElementById('lightboxPrev').addEventListener('click', () => { lbIndex = (lbIndex - 1 + uniqueTiles.length) % uniqueTiles.length; updateLightbox(); });
   lightbox.addEventListener('click', e => { if(e.target === lightbox) closeLightbox(); });
   document.addEventListener('keydown', e => {
     if(!lightbox.classList.contains('open')) return;
@@ -1576,36 +1694,62 @@
   navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
 
   if(!reduceMotion){
-    const rows = [
-      { el: document.getElementById('row1'), dir: -1 },
-      { el: document.getElementById('row2'), dir: 1 },
-      { el: document.getElementById('row3'), dir: -1 }
-    ];
-    rows.forEach(row => {
-      gsap.to(row.el, {
-        xPercent: row.dir * 18,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: '.portfolio-section',
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: 1
-        }
-      });
-    });
-
     gsap.fromTo('.hero-img img',
       { scale: 1.16, xPercent: -1.5 },
       { scale: 1.05, xPercent: 1.5, duration: 22, ease: 'none' }
     );
 
-    gsap.utils.toArray('.about-text, .featured-copy, .services-head, .portfolio-head, .experience-head, .heirloom-copy, .contact-info, form, .faq-head, .step').forEach(el => {
-      gsap.fromTo(el, { y: 30, opacity: 0 }, {
+    gsap.fromTo('.statement h2',
+      { y: 48, opacity: 0 },
+      { y: 0, opacity: 1, duration: 1.3, ease: 'power3.out',
+        scrollTrigger: { trigger: '.statement', start: 'top 72%', once: true } }
+    );
+    gsap.fromTo('.statement .divider',
+      { scaleY: 0 },
+      { scaleY: 1, duration: 1, ease: 'power2.out', transformOrigin: 'top',
+        scrollTrigger: { trigger: '.statement', start: 'top 78%', once: true } }
+    );
+
+    gsap.utils.toArray('.about-img, .package-img, .featured-images .tall, .featured-images .stack > div').forEach(el => {
+      gsap.fromTo(el,
+        { clipPath: 'inset(14% 10% 14% 10%)' },
+        { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.35, ease: 'power3.out',
+          scrollTrigger: { trigger: el, start: 'top 82%', once: true } }
+      );
+    });
+    gsap.utils.toArray('.about-img img, .package-img img, .featured-images img').forEach(img => {
+      gsap.fromTo(img,
+        { scale: 1.18 },
+        { scale: 1, ease: 'none',
+          scrollTrigger: { trigger: img.parentElement, start: 'top bottom', end: 'bottom top', scrub: 0.6 } }
+      );
+    });
+
+    gsap.fromTo('.step',
+      { y: 36, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.9, ease: 'power2.out', stagger: 0.12,
+        scrollTrigger: { trigger: '.steps', start: 'top 78%', once: true } }
+    );
+
+    gsap.fromTo('.heirloom-spread .shot img',
+      { scale: 1.1 },
+      { scale: 1, duration: 1.15, ease: 'power3.out', stagger: 0.1,
+        scrollTrigger: { trigger: '.heirloom-spread', start: 'top 80%', once: true } }
+    );
+
+    gsap.fromTo('.heirloom h2, .heirloom-lede, .heirloom-specs, .heirloom-foot',
+      { y: 28, opacity: 0 },
+      { y: 0, opacity: 1, duration: 1, ease: 'power2.out', stagger: 0.1,
+        scrollTrigger: { trigger: '.heirloom', start: 'top 75%', once: true } }
+    );
+
+    gsap.utils.toArray('.about-text, .featured-copy, .services-head, .portfolio-head, .experience-head, .contact-info, form, .faq-head').forEach(el => {
+      gsap.fromTo(el, { y: 36, opacity: 0 }, {
         y: 0,
         opacity: 1,
-        duration: 1,
+        duration: 1.05,
         ease: 'power2.out',
-        scrollTrigger: { trigger: el, start: 'top 88%', once: true }
+        scrollTrigger: { trigger: el, start: 'top 86%', once: true }
       });
     });
   }
