@@ -652,7 +652,7 @@
   .heirloom{
     background:var(--raspberry);
     color:var(--dove);
-    padding:140px 5vw 150px;
+    padding:110px 5vw 120px;
     text-align:center;
     position:relative;
     overflow:hidden;
@@ -683,8 +683,8 @@
     justify-content:center;
     align-items:flex-end;
     gap:0;
-    height:380px;
-    margin:0 auto 48px;
+    height:340px;
+    margin:0 auto 36px;
     position:relative;
   }
   .heirloom-spread .shot{
@@ -1732,8 +1732,8 @@
     );
 
     gsap.fromTo('.heirloom-spread .shot img',
-      { scale: 1.12, opacity: 0 },
-      { scale: 1, opacity: 1, duration: 1.1, ease: 'power3.out', stagger: 0.12,
+      { scale: 1.1 },
+      { scale: 1, duration: 1.15, ease: 'power3.out', stagger: 0.1,
         scrollTrigger: { trigger: '.heirloom-spread', start: 'top 80%', once: true } }
     );
 
