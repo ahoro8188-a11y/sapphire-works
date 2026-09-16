@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sapphire Works — Destination Wedding & Elopement Photography</title>
+<meta name="description" content="Sapphire Works documents destination weddings and elopements worldwide — quiet, unstaged photographs of love in the places that shaped it.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;0,6..96,700;1,6..96,400;1,6..96,500&display=swap" rel="stylesheet">
@@ -17,6 +18,8 @@
     --sienna:#3D1417;
     --raspberry:#180F0D;
     --raspberry-soft:#2A1B18;
+    --gilt:#B89B72;
+    --gilt-soft:rgba(184,155,114,0.45);
   }
   *{margin:0;padding:0;box-sizing:border-box;}
   html{scroll-behavior:smooth;}
@@ -48,8 +51,12 @@
     display:block;
   }
   .eyebrow.on-dark{color:var(--dove);opacity:0.85;}
+  .gilt-rule{
+    width:48px;height:1px;
+    background:var(--gilt);
+    display:block;
+  }
 
-  /* grain overlay */
   .grain{
     position:fixed;inset:0;
     pointer-events:none;
@@ -58,6 +65,51 @@
     mix-blend-mode:overlay;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
+
+  .progress{
+    position:fixed;top:0;left:0;height:2px;width:0;
+    background:var(--gilt);
+    z-index:1200;
+    transform-origin:left;
+  }
+
+  /* ---------- PRELOADER ---------- */
+  .preloader{
+    position:fixed;inset:0;
+    background:var(--raspberry);
+    z-index:3000;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    transition:opacity 0.8s ease, visibility 0.8s ease;
+  }
+  .preloader.done{opacity:0;visibility:hidden;pointer-events:none;}
+  .preloader .mark{
+    font-family:'Bodoni Moda',serif;
+    letter-spacing:0.38em;
+    font-size:0.82rem;
+    color:var(--paper);
+  }
+  .preloader .sub{
+    margin-top:18px;
+    font-size:0.62rem;
+    letter-spacing:0.32em;
+    text-transform:uppercase;
+    color:var(--gilt);
+  }
+  .preloader .bar{
+    width:72px;height:1px;
+    background:rgba(184,155,114,0.25);
+    margin-top:28px;
+    overflow:hidden;
+  }
+  .preloader .bar span{
+    display:block;height:100%;width:0;
+    background:var(--gilt);
+    animation:loadBar 1.6s ease forwards;
+  }
+  @keyframes loadBar{to{width:100%;}}
 
   /* ---------- NAV ---------- */
   nav{
@@ -85,7 +137,8 @@
   nav.scrolled .logotype{color:var(--sienna);}
   .nav-links{
     display:flex;
-    gap:44px;
+    align-items:center;
+    gap:36px;
     list-style:none;
   }
   .nav-links a{
@@ -105,6 +158,18 @@
     transition:width 0.35s ease;
   }
   .nav-links a:hover::after{width:100%;}
+  .nav-cta{
+    border:1px solid var(--gilt);
+    padding:10px 18px;
+    color:var(--paper) !important;
+    letter-spacing:0.16em !important;
+  }
+  .nav-cta::after{display:none !important;}
+  nav.scrolled .nav-cta{
+    color:var(--sienna) !important;
+    border-color:var(--gilt);
+  }
+  .nav-cta:hover{background:var(--gilt);color:var(--raspberry) !important;}
   .nav-toggle{display:none;background:none;border:none;cursor:pointer;color:var(--paper);}
   nav.scrolled .nav-toggle{color:var(--sienna);}
 
@@ -125,15 +190,22 @@
   .hero::after{
     content:'';
     position:absolute;inset:0;
-    background:linear-gradient(180deg, rgba(24,15,13,0.15) 0%, rgba(24,15,13,0.05) 40%, rgba(24,15,13,0.65) 100%);
+    background:linear-gradient(180deg, rgba(24,15,13,0.22) 0%, rgba(24,15,13,0.04) 38%, rgba(24,15,13,0.72) 100%);
   }
   .hero-content{
     position:relative;
     z-index:2;
     padding:0 5vw 90px;
-    max-width:900px;
+    max-width:920px;
   }
-  .hero-content .eyebrow{color:var(--dove);opacity:0.9;}
+  .hero-meta{
+    display:flex;align-items:center;gap:16px;
+    margin-bottom:22px;
+    color:var(--gilt);
+    font-size:0.68rem;
+    letter-spacing:0.28em;
+    text-transform:uppercase;
+  }
   .hero-content h1{
     font-size:clamp(2.6rem, 6vw, 5.2rem);
     color:var(--paper);
@@ -175,7 +247,7 @@
     content:'';
     position:absolute;top:-100%;left:0;
     width:100%;height:100%;
-    background:var(--paper);
+    background:var(--gilt);
     animation:scrollDown 2.2s ease-in-out infinite;
   }
   @keyframes scrollDown{
@@ -188,7 +260,7 @@
   .statement{
     background:var(--raspberry);
     color:var(--dove);
-    padding:170px 5vw;
+    padding:150px 5vw 80px;
     text-align:center;
     position:relative;
   }
@@ -203,7 +275,7 @@
   }
   .statement .divider{
     width:1px;height:70px;
-    background:rgba(199,192,183,0.3);
+    background:var(--gilt-soft);
     margin:0 auto 40px;
   }
   .statement .tags{
@@ -218,13 +290,49 @@
     opacity:0.6;
   }
 
+  /* ---------- MARQUEE ---------- */
+  .marquee{
+    background:var(--raspberry);
+    padding:0 0 70px;
+    overflow:hidden;
+    border-top:1px solid rgba(184,155,114,0.18);
+  }
+  .marquee-track{
+    display:flex;
+    gap:0;
+    width:max-content;
+    animation:marquee 48s linear infinite;
+  }
+  .marquee span{
+    font-family:'Bodoni Moda',serif;
+    font-style:italic;
+    font-size:clamp(1.6rem,3vw,2.4rem);
+    color:var(--paper);
+    padding:28px 18px;
+    white-space:nowrap;
+    opacity:0.88;
+  }
+  .marquee i{
+    font-style:normal;
+    color:var(--gilt);
+    padding:0 8px;
+    font-size:0.7em;
+    opacity:0.7;
+  }
+  @keyframes marquee{
+    from{transform:translateX(0);}
+    to{transform:translateX(-50%);}
+  }
+
   /* ---------- ABOUT ---------- */
   .about{
     display:grid;
     grid-template-columns:1fr 1fr;
     background:var(--cream);
   }
-  .about-img{height:100%;min-height:640px;}
+  .about-img{height:100%;min-height:640px;overflow:hidden;}
+  .about-img img{transition:transform 1.2s ease;}
+  .about:hover .about-img img{transform:scale(1.04);}
   .about-text{
     display:flex;
     flex-direction:column;
@@ -243,6 +351,26 @@
     max-width:460px;
     margin-bottom:20px;
   }
+  .about-stats{
+    display:flex;gap:36px;
+    margin-top:18px;
+    padding-top:28px;
+    border-top:1px solid rgba(61,20,23,0.12);
+    max-width:460px;
+  }
+  .about-stats div span{
+    display:block;
+    font-family:'Bodoni Moda',serif;
+    font-style:italic;
+    font-size:1.6rem;
+    color:var(--sienna);
+  }
+  .about-stats div small{
+    font-size:0.68rem;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    opacity:0.55;
+  }
   .about-signature{
     margin-top:30px;
     font-family:'Bodoni Moda',serif;
@@ -251,10 +379,61 @@
     color:var(--sienna);
   }
 
+  /* ---------- FEATURED STORY ---------- */
+  .featured{
+    background:var(--paper);
+    padding:140px 5vw;
+  }
+  .featured-grid{
+    display:grid;
+    grid-template-columns:1.1fr 0.9fr;
+    gap:72px;
+    max-width:1240px;
+    margin:0 auto;
+    align-items:center;
+  }
+  .featured-images{
+    display:grid;
+    grid-template-columns:1.2fr 0.8fr;
+    gap:18px;
+    min-height:620px;
+  }
+  .featured-images .tall{height:100%;min-height:620px;overflow:hidden;}
+  .featured-images .stack{display:flex;flex-direction:column;gap:18px;}
+  .featured-images .stack > div{flex:1;overflow:hidden;min-height:180px;}
+  .featured-copy .place{
+    font-family:'Bodoni Moda',serif;
+    font-style:italic;
+    color:var(--gilt);
+    font-size:1.05rem;
+    margin-bottom:16px;
+    display:block;
+  }
+  .featured-copy h2{
+    font-size:clamp(2.2rem,3.6vw,3.2rem);
+    margin-bottom:24px;
+  }
+  .featured-copy p{
+    line-height:1.85;
+    max-width:420px;
+    margin-bottom:18px;
+  }
+  .featured-quote{
+    margin-top:32px;
+    padding-top:28px;
+    border-top:1px solid rgba(61,20,23,0.1);
+    font-family:'Bodoni Moda',serif;
+    font-style:italic;
+    font-size:1.25rem;
+    line-height:1.5;
+    color:var(--sienna);
+    max-width:400px;
+  }
+
   /* ---------- PORTFOLIO ---------- */
   .portfolio-section{
     padding:150px 0 160px;
-    background:var(--paper);
+    background:var(--cream);
     overflow:hidden;
   }
   .portfolio-head{
@@ -288,11 +467,65 @@
   .portfolio-row.row-2 .tile{height:300px;}
   .portfolio-row .tile img{transition:transform 0.7s ease;}
   .portfolio-row .tile:hover img{transform:scale(1.06);}
+  .tile figcaption{
+    position:absolute;left:0;right:0;bottom:0;
+    padding:18px 18px 16px;
+    background:linear-gradient(transparent, rgba(24,15,13,0.7));
+    color:var(--paper);
+    font-size:0.68rem;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    opacity:0;
+    transform:translateY(8px);
+    transition:opacity 0.35s ease, transform 0.35s ease;
+  }
+  .tile:hover figcaption{opacity:1;transform:translateY(0);}
+
+  /* ---------- EXPERIENCE ---------- */
+  .experience{
+    background:var(--raspberry);
+    color:var(--dove);
+    padding:150px 5vw;
+  }
+  .experience-head{
+    max-width:720px;
+    margin:0 auto 80px;
+    text-align:center;
+  }
+  .experience-head h2{
+    color:var(--paper);
+    font-size:clamp(2.2rem,4vw,3.4rem);
+  }
+  .steps{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:40px;
+    max-width:1240px;
+    margin:0 auto;
+  }
+  .step{
+    padding-top:24px;
+    border-top:1px solid var(--gilt-soft);
+  }
+  .step-num{
+    font-family:'Bodoni Moda',serif;
+    font-style:italic;
+    color:var(--gilt);
+    font-size:1.1rem;
+    display:block;
+    margin-bottom:18px;
+  }
+  .step h3{
+    color:var(--paper);
+    font-size:1.55rem;
+    margin-bottom:14px;
+  }
+  .step p{line-height:1.75;font-size:0.95rem;}
 
   /* ---------- SERVICES ---------- */
   .services{
     background:var(--cream);
-    padding:160px 0;
+    padding:160px 0 40px;
   }
   .services-head{
     text-align:center;
@@ -304,10 +537,11 @@
     display:grid;
     grid-template-columns:1fr 1fr;
     min-height:520px;
+    position:relative;
   }
   .package:nth-child(even){direction:rtl;}
   .package:nth-child(even) > *{direction:ltr;}
-  .package-img{height:100%;}
+  .package-img{height:100%;overflow:hidden;}
   .package-text{
     display:flex;
     flex-direction:column;
@@ -315,12 +549,28 @@
     padding:70px 7vw;
     border-top:1px solid rgba(61,20,23,0.1);
   }
+  .package.featured .package-text{
+    background:var(--paper);
+  }
   .package-number{
     font-family:'Bodoni Moda',serif;
     font-style:italic;
     font-size:1rem;
-    color:var(--dove);
+    color:var(--gilt);
     margin-bottom:20px;
+  }
+  .badge{
+    display:inline-block;
+    font-family:'Switzer',sans-serif;
+    font-style:normal;
+    font-size:0.62rem;
+    letter-spacing:0.2em;
+    text-transform:uppercase;
+    border:1px solid var(--gilt);
+    color:var(--gilt);
+    padding:5px 10px;
+    margin-left:12px;
+    vertical-align:middle;
   }
   .package-text h3{
     font-size:clamp(1.8rem,2.6vw,2.5rem);
@@ -351,6 +601,16 @@
     color:var(--sienna);
     font-size:1.1rem;
   }
+  .text-link{
+    margin-top:22px;
+    display:inline-block;
+    font-size:0.72rem;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--sienna);
+    border-bottom:1px solid var(--gilt);
+    padding-bottom:4px;
+  }
 
   /* ---------- TESTIMONIALS ---------- */
   .testimonials{
@@ -376,6 +636,14 @@
     justify-content:center;
   }
   .testi-slide.active{opacity:1;position:relative;}
+  .testi-mark{
+    font-family:'Bodoni Moda',serif;
+    font-size:4rem;
+    line-height:0.6;
+    color:var(--gilt);
+    margin-bottom:28px;
+    opacity:0.8;
+  }
   .testi-slide p{
     font-family:'Bodoni Moda',serif;
     font-style:italic;
@@ -405,7 +673,52 @@
     cursor:pointer;
     transition:background 0.3s ease, transform 0.3s ease;
   }
-  .testi-dots button.active{background:var(--paper);transform:scale(1.3);}
+  .testi-dots button.active{background:var(--gilt);transform:scale(1.3);}
+
+  /* ---------- FAQ ---------- */
+  .faq{
+    background:var(--paper);
+    padding:150px 5vw;
+  }
+  .faq-wrap{
+    max-width:820px;
+    margin:0 auto;
+  }
+  .faq-head{text-align:center;margin-bottom:60px;}
+  .faq-head h2{font-size:clamp(2.2rem,4vw,3.4rem);}
+  .faq-item{
+    border-top:1px solid rgba(61,20,23,0.12);
+  }
+  .faq-item:last-child{border-bottom:1px solid rgba(61,20,23,0.12);}
+  .faq-q{
+    width:100%;
+    background:none;border:none;
+    text-align:left;
+    padding:26px 0;
+    font-family:'Bodoni Moda',serif;
+    font-size:1.25rem;
+    color:var(--sienna);
+    cursor:pointer;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:24px;
+  }
+  .faq-q i{
+    font-style:normal;
+    font-size:1.4rem;
+    color:var(--gilt);
+    font-family:'Bodoni Moda',serif;
+    transition:transform 0.3s ease;
+  }
+  .faq-item.open .faq-q i{transform:rotate(45deg);}
+  .faq-a{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.4s ease, padding 0.4s ease;
+  }
+  .faq-item.open .faq-a{max-height:240px;padding-bottom:26px;}
+  .faq-a p{line-height:1.8;max-width:640px;color:var(--chocolate);}
 
   /* ---------- CONTACT ---------- */
   .contact{
@@ -429,6 +742,27 @@
     margin-bottom:40px;
     color:var(--chocolate);
   }
+  .availability{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    font-size:0.72rem;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    color:var(--sienna);
+    margin-bottom:36px;
+  }
+  .availability .dot{
+    width:7px;height:7px;border-radius:50%;
+    background:var(--gilt);
+    box-shadow:0 0 0 0 rgba(184,155,114,0.6);
+    animation:pulse 2.4s ease infinite;
+  }
+  @keyframes pulse{
+    0%{box-shadow:0 0 0 0 rgba(184,155,114,0.5);}
+    70%{box-shadow:0 0 0 8px rgba(184,155,114,0);}
+    100%{box-shadow:0 0 0 0 rgba(184,155,114,0);}
+  }
   .contact-detail{margin-bottom:24px;}
   .contact-detail label{
     display:block;
@@ -443,7 +777,7 @@
     font-size:1.15rem;
     color:var(--sienna);
   }
-  form{display:flex;flex-direction:column;gap:26px;}
+  form{display:flex;flex-direction:column;gap:26px;position:relative;}
   .form-row{display:grid;grid-template-columns:1fr 1fr;gap:26px;}
   .field{position:relative;}
   .field label{
@@ -454,7 +788,7 @@
     opacity:0.55;
     margin-bottom:10px;
   }
-  .field input, .field textarea{
+  .field input, .field textarea, .field select{
     width:100%;
     background:transparent;
     border:none;
@@ -465,8 +799,10 @@
     color:var(--sienna);
     outline:none;
     transition:border-color 0.3s ease;
+    border-radius:0;
+    appearance:none;
   }
-  .field input:focus, .field textarea:focus{border-color:var(--sienna);}
+  .field input:focus, .field textarea:focus, .field select:focus{border-color:var(--gilt);}
   .field textarea{resize:none;min-height:90px;}
   .submit-btn{
     align-self:flex-start;
@@ -482,22 +818,63 @@
     transition:background 0.35s ease, transform 0.3s ease;
   }
   .submit-btn:hover{background:var(--raspberry);transform:translateY(-2px);}
+  .form-success{
+    display:none;
+    position:absolute;inset:0;
+    background:var(--cream);
+    flex-direction:column;
+    justify-content:center;
+  }
+  .form-success.show{display:flex;}
+  .form-success h3{
+    font-size:2rem;
+    font-style:italic;
+    margin:16px 0 12px;
+  }
+  .form-success p{line-height:1.7;max-width:360px;}
 
   /* ---------- FOOTER ---------- */
   footer{
     background:var(--raspberry);
     color:var(--dove);
-    padding:50px 5vw;
+    padding:80px 5vw 40px;
+  }
+  .foot-mark{
+    font-family:'Bodoni Moda',serif;
+    font-size:clamp(2.4rem,8vw,6.4rem);
+    letter-spacing:0.12em;
+    color:var(--paper);
+    text-align:center;
+    line-height:1;
+    margin-bottom:12px;
+  }
+  .foot-tag{
+    text-align:center;
+    font-size:0.72rem;
+    letter-spacing:0.28em;
+    text-transform:uppercase;
+    color:var(--gilt);
+    margin-bottom:56px;
+  }
+  .foot-bottom{
     display:flex;
     justify-content:space-between;
     align-items:center;
     font-size:0.78rem;
     letter-spacing:0.05em;
+    border-top:1px solid rgba(184,155,114,0.2);
+    padding-top:28px;
   }
   footer .foot-links{display:flex;gap:28px;}
   footer a:hover{color:var(--paper);}
 
   /* ---------- RESPONSIVE ---------- */
+  @media (max-width:980px){
+    .steps{grid-template-columns:1fr 1fr;}
+    .featured-grid{grid-template-columns:1fr;gap:40px;}
+    .featured-images{min-height:auto;}
+    .featured-images .tall{min-height:420px;}
+  }
   @media (max-width:860px){
     .nav-links{
       position:fixed;top:0;right:0;
@@ -513,18 +890,21 @@
     }
     .nav-links.open{transform:translateX(0);}
     .nav-links a{color:var(--paper);font-size:0.95rem;}
+    .nav-cta{color:var(--paper) !important;}
     .nav-toggle{display:block;}
     .about, .package, .contact-grid{grid-template-columns:1fr;}
     .about-img{min-height:380px;order:-1;}
     .package:nth-child(even){direction:ltr;}
     .package-img{min-height:340px;}
     .form-row{grid-template-columns:1fr;}
-    footer{flex-direction:column;gap:16px;text-align:center;}
+    .foot-bottom{flex-direction:column;gap:16px;text-align:center;}
+    .steps{grid-template-columns:1fr;}
+    .tile figcaption{opacity:1;transform:none;}
   }
 
   @media (prefers-reduced-motion: reduce){
     html{scroll-behavior:auto;}
-    .scroll-line::after{animation:none;}
+    .scroll-line::after,.preloader .bar span,.marquee-track,.availability .dot{animation:none;}
   }
 
   /* ---------- CUSTOM CURSOR ---------- */
@@ -584,6 +964,14 @@
     object-fit:contain;
     box-shadow:0 30px 80px rgba(0,0,0,0.5);
   }
+  .lightbox-cap{
+    position:absolute;bottom:64px;left:50%;
+    transform:translateX(-50%);
+    color:var(--gilt);
+    font-size:0.72rem;
+    letter-spacing:0.2em;
+    text-transform:uppercase;
+  }
   .lightbox-close{
     position:absolute;top:36px;right:5vw;
     background:none;border:none;
@@ -623,6 +1011,13 @@
 <body>
 
 <div class="grain"></div>
+<div class="progress" id="progress"></div>
+
+<div class="preloader" id="preloader">
+  <div class="mark">SAPPHIRE WORKS</div>
+  <div class="sub">Est. for the faraway vows</div>
+  <div class="bar"><span></span></div>
+</div>
 
 <div class="cursor" id="cursor"></div>
 <div class="cursor-label" id="cursorLabel">View</div>
@@ -638,6 +1033,7 @@
   <div class="lightbox-img-wrap">
     <img id="lightboxImg" src="" alt="Portfolio image">
   </div>
+  <span class="lightbox-cap" id="lightboxCap"></span>
   <button class="lightbox-nav lightbox-next" id="lightboxNext">
     <svg width="28" height="20" viewBox="0 0 28 20" fill="none"><path d="M28 10H1M28 10L18 1M28 10L18 19" stroke="currentColor" stroke-width="1.2"/></svg>
   </button>
@@ -649,22 +1045,21 @@
   <ul class="nav-links" id="navLinks">
     <li><a href="#about">About</a></li>
     <li><a href="#portfolio">Portfolio</a></li>
-    <li><a href="#services">Services</a></li>
-    <li><a href="#contact">Contact</a></li>
+    <li><a href="#services">Investment</a></li>
     <li><a href="gallery.html">Client Login</a></li>
+    <li><a href="#contact" class="nav-cta">Inquire</a></li>
   </ul>
   <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
     <svg width="26" height="18" viewBox="0 0 26 18" fill="none"><path d="M0 1H26M0 9H26M0 17H26" stroke="currentColor"/></svg>
   </button>
 </nav>
 
-<!-- HERO -->
 <section class="hero">
   <div class="hero-img">
     <img src="https://images.pexels.com/photos/33434578/pexels-photo-33434578.jpeg?auto=compress&cs=tinysrgb&w=1920" alt="Destination wedding portrait">
   </div>
   <div class="hero-content">
-    <span class="eyebrow">Destination Wedding &amp; Elopement Photography</span>
+    <div class="hero-meta"><span class="gilt-rule"></span> Worldwide · Booking 2027</div>
     <h1>Vows carried across oceans,<br>kept in light.</h1>
     <p>Sapphire Works documents love in the places that shaped it — coastlines, mountain passes, and quiet chapels far from home. For couples who'd travel to the ends of the earth for each other, because some already have.</p>
   </div>
@@ -674,7 +1069,6 @@
   </div>
 </section>
 
-<!-- STATEMENT -->
 <section class="statement">
   <div class="divider"></div>
   <h2>Every couple carries a story only the light can tell — mine is to notice it before it passes.</h2>
@@ -685,7 +1079,13 @@
   </div>
 </section>
 
-<!-- ABOUT -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span>Amalfi <i>✦</i> Santorini <i>✦</i> Kyoto <i>✦</i> Udaipur <i>✦</i> Tuscany <i>✦</i> Banff <i>✦</i> Lisbon <i>✦</i> Bali <i>✦</i> Provence <i>✦</i> Patagonia <i>✦</i> Jaipur <i>✦</i> Iceland</span>
+    <span>Amalfi <i>✦</i> Santorini <i>✦</i> Kyoto <i>✦</i> Udaipur <i>✦</i> Tuscany <i>✦</i> Banff <i>✦</i> Lisbon <i>✦</i> Bali <i>✦</i> Provence <i>✦</i> Patagonia <i>✦</i> Jaipur <i>✦</i> Iceland</span>
+  </div>
+</div>
+
 <section class="about" id="about">
   <div class="about-img">
     <img src="https://images.pexels.com/photos/27939987/pexels-photo-27939987.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Photographer portrait work">
@@ -695,11 +1095,36 @@
     <h2>Hi, I'm Maya —<br><em>the eye behind Sapphire Works.</em></h2>
     <p>I've spent the last several years chasing golden hour across coastlines and cobblestone towns, learning that the best wedding photographs are rarely posed — they're caught mid-laugh, mid-vow, mid-glance.</p>
     <p>My approach is quiet and observational. I stay close enough to catch the details, far enough to let your day unfold exactly as it should. No forced poses, no interrupted moments — just the two of you, as you actually are.</p>
+    <div class="about-stats">
+      <div><span>12+</span><small>Countries</small></div>
+      <div><span>80</span><small>Weddings</small></div>
+      <div><span>2027</span><small>Now booking</small></div>
+    </div>
     <div class="about-signature">Maya</div>
   </div>
 </section>
 
-<!-- PORTFOLIO -->
+<section class="featured" id="journal">
+  <div class="featured-grid">
+    <div class="featured-images">
+      <div class="tall"><img src="https://images.pexels.com/photos/35553660/pexels-photo-35553660.jpeg?auto=compress&cs=tinysrgb&w=1000" alt="Amalfi Coast wedding"></div>
+      <div class="stack">
+        <div><img src="https://images.pexels.com/photos/8815284/pexels-photo-8815284.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Wedding details"></div>
+        <div><img src="https://images.pexels.com/photos/31953108/pexels-photo-31953108.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Ceremony portrait"></div>
+      </div>
+    </div>
+    <div class="featured-copy">
+      <span class="eyebrow">From the Journal</span>
+      <span class="place">Amalfi Coast · March 2026</span>
+      <h2>Renata &amp; Josh,<br>above the sea.</h2>
+      <p>A cliffside ceremony with twelve guests, lemon groves in the wind, and a dinner that lasted until the boats below went dark.</p>
+      <p>No timeline beyond the light. No first look staged for the camera. Just a morning that stretched, unhurried, into a night they still talk about in the present tense.</p>
+      <div class="featured-quote">“We forgot she was even there, and the photos feel like memory itself.”</div>
+      <a href="#contact" class="text-link">Begin your story</a>
+    </div>
+  </div>
+</section>
+
 <section class="portfolio-section" id="portfolio">
   <div class="portfolio-head">
     <span class="eyebrow">Selected Work</span>
@@ -708,44 +1133,72 @@
   <div class="portfolio-rows">
     <div class="portfolio-row-wrap">
       <div class="portfolio-row row-1" id="row1">
-        <div class="tile"><img src="https://images.pexels.com/photos/35553660/pexels-photo-35553660.jpeg?auto=compress&cs=tinysrgb&w=800"></div>
-        <div class="tile"><img src="https://images.pexels.com/photos/8815284/pexels-photo-8815284.jpeg?auto=compress&cs=tinysrgb&w=800"></div>
-        <div class="tile"><img src="https://images.pexels.com/photos/35984124/pexels-photo-35984124.jpeg?auto=compress&cs=tinysrgb&w=800"></div>
-        <div class="tile"><img src="https://images.pexels.com/photos/23641783/pexels-photo-23641783.jpeg?auto=compress&cs=tinysrgb&w=800"></div>
-        <div class="tile"><img src="https://images.pexels.com/photos/9721887/pexels-photo-9721887.jpeg?auto=compress&cs=tinysrgb&w=800"></div>
-        <div class="tile"><img src="https://images.pexels.com/photos/5004864/pexels-photo-5004864.jpeg?auto=compress&cs=tinysrgb&w=800"></div>
-        <div class="tile"><img src="https://images.pexels.com/photos/37842572/pexels-photo-37842572.jpeg?auto=compress&cs=tinysrgb&w=800"></div>
-        <div class="tile"><img src="https://images.pexels.com/photos/26989966/pexels-photo-26989966.jpeg?auto=compress&cs=tinysrgb&w=800"></div>
+        <figure class="tile" data-cap="Amalfi Coast"><img src="https://images.pexels.com/photos/35553660/pexels-photo-35553660.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Amalfi Coast wedding"><figcaption>Amalfi Coast</figcaption></figure>
+        <figure class="tile" data-cap="Santorini"><img src="https://images.pexels.com/photos/8815284/pexels-photo-8815284.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Santorini elopement"><figcaption>Santorini</figcaption></figure>
+        <figure class="tile" data-cap="Tuscany"><img src="https://images.pexels.com/photos/35984124/pexels-photo-35984124.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Tuscany wedding"><figcaption>Tuscany</figcaption></figure>
+        <figure class="tile" data-cap="Lisbon"><img src="https://images.pexels.com/photos/23641783/pexels-photo-23641783.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Lisbon couple"><figcaption>Lisbon</figcaption></figure>
+        <figure class="tile" data-cap="Kyoto"><img src="https://images.pexels.com/photos/9721887/pexels-photo-9721887.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Kyoto wedding"><figcaption>Kyoto</figcaption></figure>
+        <figure class="tile" data-cap="Provence"><img src="https://images.pexels.com/photos/5004864/pexels-photo-5004864.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Provence details"><figcaption>Provence</figcaption></figure>
+        <figure class="tile" data-cap="Udaipur"><img src="https://images.pexels.com/photos/37842572/pexels-photo-37842572.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Udaipur celebration"><figcaption>Udaipur</figcaption></figure>
+        <figure class="tile" data-cap="Banff"><img src="https://images.pexels.com/photos/26989966/pexels-photo-26989966.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Banff mountains"><figcaption>Banff</figcaption></figure>
       </div>
     </div>
     <div class="portfolio-row-wrap">
       <div class="portfolio-row row-2" id="row2">
-        <div class="tile"><img src="https://images.pexels.com/photos/18209991/pexels-photo-18209991.jpeg?auto=compress&cs=tinysrgb&w=800"></div>
-        <div class="tile"><img src="https://images.pexels.com/photos/19369021/pexels-photo-19369021.jpeg?auto=compress&cs=tinysrgb&w=800"></div>
-        <div class="tile"><img src="https://images.pexels.com/photos/31953108/pexels-photo-31953108.jpeg?auto=compress&cs=tinysrgb&w=800"></div>
-        <div class="tile"><img src="https://images.pexels.com/photos/1026390/pexels-photo-1026390.jpeg?auto=compress&cs=tinysrgb&w=800"></div>
-        <div class="tile"><img src="https://images.pexels.com/photos/8815329/pexels-photo-8815329.jpeg?auto=compress&cs=tinysrgb&w=800"></div>
-        <div class="tile"><img src="https://images.pexels.com/photos/31048983/pexels-photo-31048983.jpeg?auto=compress&cs=tinysrgb&w=800"></div>
-        <div class="tile"><img src="https://images.pexels.com/photos/15291907/pexels-photo-15291907.jpeg?auto=compress&cs=tinysrgb&w=800"></div>
-        <div class="tile"><img src="https://images.pexels.com/photos/30679828/pexels-photo-30679828.jpeg?auto=compress&cs=tinysrgb&w=800"></div>
+        <figure class="tile" data-cap="Iceland"><img src="https://images.pexels.com/photos/18209991/pexels-photo-18209991.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Iceland elopement"><figcaption>Iceland</figcaption></figure>
+        <figure class="tile" data-cap="Bali"><img src="https://images.pexels.com/photos/19369021/pexels-photo-19369021.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Bali wedding"><figcaption>Bali</figcaption></figure>
+        <figure class="tile" data-cap="Amalfi"><img src="https://images.pexels.com/photos/31953108/pexels-photo-31953108.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Amalfi ceremony"><figcaption>Amalfi</figcaption></figure>
+        <figure class="tile" data-cap="Jaipur"><img src="https://images.pexels.com/photos/1026390/pexels-photo-1026390.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Jaipur florals"><figcaption>Jaipur</figcaption></figure>
+        <figure class="tile" data-cap="Santorini"><img src="https://images.pexels.com/photos/8815329/pexels-photo-8815329.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Santorini portrait"><figcaption>Santorini</figcaption></figure>
+        <figure class="tile" data-cap="Patagonia"><img src="https://images.pexels.com/photos/31048983/pexels-photo-31048983.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Patagonia landscape"><figcaption>Patagonia</figcaption></figure>
+        <figure class="tile" data-cap="Tuscany"><img src="https://images.pexels.com/photos/15291907/pexels-photo-15291907.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Tuscany villa"><figcaption>Tuscany</figcaption></figure>
+        <figure class="tile" data-cap="Lisbon"><img src="https://images.pexels.com/photos/30679828/pexels-photo-30679828.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Lisbon evening"><figcaption>Lisbon</figcaption></figure>
       </div>
     </div>
     <div class="portfolio-row-wrap">
       <div class="portfolio-row row-3" id="row3">
-        <div class="tile"><img src="https://images.pexels.com/photos/16572354/pexels-photo-16572354.jpeg?auto=compress&cs=tinysrgb&w=800"></div>
-        <div class="tile"><img src="https://images.pexels.com/photos/15736094/pexels-photo-15736094.jpeg?auto=compress&cs=tinysrgb&w=800"></div>
-        <div class="tile"><img src="https://images.pexels.com/photos/29858926/pexels-photo-29858926.jpeg?auto=compress&cs=tinysrgb&w=800"></div>
-        <div class="tile"><img src="https://images.pexels.com/photos/38922257/pexels-photo-38922257.jpeg?auto=compress&cs=tinysrgb&w=800"></div>
-        <div class="tile"><img src="https://images.pexels.com/photos/30138405/pexels-photo-30138405.jpeg?auto=compress&cs=tinysrgb&w=800"></div>
-        <div class="tile"><img src="https://images.pexels.com/photos/20508986/pexels-photo-20508986.jpeg?auto=compress&cs=tinysrgb&w=800"></div>
-        <div class="tile"><img src="https://images.pexels.com/photos/33434578/pexels-photo-33434578.jpeg?auto=compress&cs=tinysrgb&w=800"></div>
-        <div class="tile"><img src="https://images.pexels.com/photos/27939987/pexels-photo-27939987.jpeg?auto=compress&cs=tinysrgb&w=800"></div>
+        <figure class="tile" data-cap="Kyoto"><img src="https://images.pexels.com/photos/16572354/pexels-photo-16572354.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Kyoto details"><figcaption>Kyoto</figcaption></figure>
+        <figure class="tile" data-cap="Provence"><img src="https://images.pexels.com/photos/15736094/pexels-photo-15736094.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Provence couple"><figcaption>Provence</figcaption></figure>
+        <figure class="tile" data-cap="Udaipur"><img src="https://images.pexels.com/photos/29858926/pexels-photo-29858926.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Udaipur palace"><figcaption>Udaipur</figcaption></figure>
+        <figure class="tile" data-cap="Amalfi"><img src="https://images.pexels.com/photos/38922257/pexels-photo-38922257.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Amalfi portrait"><figcaption>Amalfi</figcaption></figure>
+        <figure class="tile" data-cap="Banff"><img src="https://images.pexels.com/photos/30138405/pexels-photo-30138405.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Banff lake"><figcaption>Banff</figcaption></figure>
+        <figure class="tile" data-cap="Bali"><img src="https://images.pexels.com/photos/20508986/pexels-photo-20508986.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Bali ceremony"><figcaption>Bali</figcaption></figure>
+        <figure class="tile" data-cap="Iceland"><img src="https://images.pexels.com/photos/33434578/pexels-photo-33434578.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Iceland vows"><figcaption>Iceland</figcaption></figure>
+        <figure class="tile" data-cap="Tuscany"><img src="https://images.pexels.com/photos/27939987/pexels-photo-27939987.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Tuscany light"><figcaption>Tuscany</figcaption></figure>
       </div>
     </div>
   </div>
 </section>
 
-<!-- SERVICES -->
+<section class="experience" id="experience">
+  <div class="experience-head">
+    <span class="eyebrow on-dark">The Experience</span>
+    <h2>How we work, from first letter to last frame.</h2>
+  </div>
+  <div class="steps">
+    <article class="step">
+      <span class="step-num">I</span>
+      <h3>The inquiry</h3>
+      <p>Tell me the date, the place, and a little of why it matters. I reply personally within 48 hours — never a form letter.</p>
+    </article>
+    <article class="step">
+      <span class="step-num">II</span>
+      <h3>The planning</h3>
+      <p>We map the light, the quiet hours, and the moments that shouldn't be interrupted. I travel early. I learn the streets.</p>
+    </article>
+    <article class="step">
+      <span class="step-num">III</span>
+      <h3>The day</h3>
+      <p>I stay close enough to catch the glance, far enough to let the day belong to you. No posed sequences. No crowding the aisle.</p>
+    </article>
+    <article class="step">
+      <span class="step-num">IV</span>
+      <h3>The gallery</h3>
+      <p>A private collection, edited by hand, delivered with care — yours to live with, print, and return to years later.</p>
+    </article>
+  </div>
+</section>
+
 <section class="services" id="services">
   <div class="services-head">
     <span class="eyebrow">Investment</span>
@@ -753,25 +1206,26 @@
   </div>
 
   <div class="package">
-    <div class="package-img"><img src="https://images.pexels.com/photos/38922257/pexels-photo-38922257.jpeg?auto=compress&cs=tinysrgb&w=1000"></div>
+    <div class="package-img"><img src="https://images.pexels.com/photos/38922257/pexels-photo-38922257.jpeg?auto=compress&cs=tinysrgb&w=1000" alt="Elopement photography"></div>
     <div class="package-text">
-      <span class="package-number">01</span>
+      <span class="package-number">01 — Intimate</span>
       <h3>The Elopement</h3>
       <p>For couples saying their vows somewhere far, small, and entirely their own.</p>
       <ul class="package-list">
-        <li>4 hours of coverage <span></span></li>
+        <li>4 hours of coverage</li>
         <li>1 destination location</li>
         <li>200+ edited images, delivered in 3 weeks</li>
         <li>Private online gallery</li>
       </ul>
       <span class="package-price">Starting at $1,800</span>
+      <a href="#contact" class="text-link">Inquire about this collection</a>
     </div>
   </div>
 
-  <div class="package">
-    <div class="package-img"><img src="https://images.pexels.com/photos/31953108/pexels-photo-31953108.jpeg?auto=compress&cs=tinysrgb&w=1000"></div>
+  <div class="package featured">
+    <div class="package-img"><img src="https://images.pexels.com/photos/31953108/pexels-photo-31953108.jpeg?auto=compress&cs=tinysrgb&w=1000" alt="Full day wedding coverage"></div>
     <div class="package-text">
-      <span class="package-number">02</span>
+      <span class="package-number">02 — Signature <em class="badge">Most requested</em></span>
       <h3>The Full Day</h3>
       <p>Getting ready through last dance — every moment of your wedding day, documented in full.</p>
       <ul class="package-list">
@@ -781,53 +1235,82 @@
         <li>Engagement session included</li>
       </ul>
       <span class="package-price">Starting at $3,400</span>
+      <a href="#contact" class="text-link">Inquire about this collection</a>
     </div>
   </div>
 
   <div class="package">
-    <div class="package-img"><img src="https://images.pexels.com/photos/26989966/pexels-photo-26989966.jpeg?auto=compress&cs=tinysrgb&w=1000"></div>
+    <div class="package-img"><img src="https://images.pexels.com/photos/26989966/pexels-photo-26989966.jpeg?auto=compress&cs=tinysrgb&w=1000" alt="Multi-day destination wedding"></div>
     <div class="package-text">
-      <span class="package-number">03</span>
+      <span class="package-number">03 — Celebration</span>
       <h3>The Multi-Day Celebration</h3>
       <p>For weddings that unfold over several days and ceremonies — every event, one continuous story.</p>
       <ul class="package-list">
         <li>Up to 3 days of coverage</li>
         <li>Second shooter included</li>
         <li>800+ edited images, delivered in 6 weeks</li>
-        <li>Travel & accommodation included</li>
+        <li>Travel &amp; accommodation included</li>
       </ul>
       <span class="package-price">Starting at $6,200</span>
+      <a href="#contact" class="text-link">Inquire about this collection</a>
     </div>
   </div>
 </section>
 
-<!-- TESTIMONIALS -->
 <section class="testimonials">
   <span class="eyebrow on-dark">Kind Words</span>
   <div class="testi-track" id="testiTrack">
     <div class="testi-slide active">
-      <p>"Maya didn't just photograph our wedding — she disappeared into it. We forgot she was even there, and the photos feel like memory itself."</p>
+      <div class="testi-mark">“</div>
+      <p>Maya didn't just photograph our wedding — she disappeared into it. We forgot she was even there, and the photos feel like memory itself.</p>
       <span>Renata &amp; Josh — Amalfi Coast, Italy</span>
     </div>
     <div class="testi-slide">
-      <p>"We eloped with just the two of us and a cliffside. Every photo still feels like it's telling our whole story, not just that one day."</p>
+      <div class="testi-mark">“</div>
+      <p>We eloped with just the two of us and a cliffside. Every photo still feels like it's telling our whole story, not just that one day.</p>
       <span>Priya &amp; Dev — Santorini, Greece</span>
     </div>
     <div class="testi-slide">
-      <p>"Three days, two ceremonies, one very tired photographer who never once let it show. The gallery still makes us cry, a year later."</p>
+      <div class="testi-mark">“</div>
+      <p>Three days, two ceremonies, one very tired photographer who never once let it show. The gallery still makes us cry, a year later.</p>
       <span>Alina &amp; Marco — Udaipur, India</span>
     </div>
   </div>
   <div class="testi-dots" id="testiDots"></div>
 </section>
 
-<!-- CONTACT -->
+<section class="faq" id="faq">
+  <div class="faq-wrap">
+    <div class="faq-head">
+      <span class="eyebrow">Before We Begin</span>
+      <h2>A few quiet answers.</h2>
+    </div>
+    <div class="faq-item open">
+      <button class="faq-q" type="button">Do you travel worldwide? <i>+</i></button>
+      <div class="faq-a"><p>Yes. Destination work is the heart of the studio. Travel is included in the multi-day collection and quoted with care for elopements and full-day weddings. I typically arrive a day early to learn the light.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" type="button">How far in advance should we book? <i>+</i></button>
+      <div class="faq-a"><p>Most destination dates are reserved 10–14 months ahead. 2026 is nearly complete; 2027 is now open. If your date is sooner, write anyway — last-minute elopements are sometimes possible.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" type="button">What does the gallery include? <i>+</i></button>
+      <div class="faq-a"><p>A private, password-protected collection of fully edited images, plus a high-resolution download. Prints and albums can be arranged after you have lived with the work for a little while.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" type="button">Will you pose us? <i>+</i></button>
+      <div class="faq-a"><p>Gently, and only when the light asks for it. The rest is observed: the walk to the ceremony, the way a hand finds another, the hour after dinner when nobody is performing anymore.</p></div>
+    </div>
+  </div>
+</section>
+
 <section class="contact" id="contact">
   <div class="contact-grid">
     <div class="contact-info">
       <span class="eyebrow">Get In Touch</span>
       <h2>Let's Tell<br>Your Story.</h2>
-      <p>Currently booking destination weddings and elopements worldwide. Reach out with your date and location, and I'll get back to you within 48 hours.</p>
+      <div class="availability"><span class="dot"></span> Currently booking 2027 destinations</div>
+      <p>Reach out with your date and location. I read every letter myself and reply within 48 hours.</p>
       <div class="contact-detail">
         <label>Email</label>
         <a href="mailto:hello@sapphireworks.com">hello@sapphireworks.com</a>
@@ -841,10 +1324,10 @@
         <a href="#">@sapphireworks</a>
       </div>
     </div>
-    <form>
+    <form id="inquiryForm">
       <div class="form-row">
         <div class="field">
-          <label>Your Name</label>
+          <label>Your Names</label>
           <input type="text" required>
         </div>
         <div class="field">
@@ -863,21 +1346,39 @@
         </div>
       </div>
       <div class="field">
+        <label>Collection</label>
+        <select>
+          <option>Not sure yet</option>
+          <option>The Elopement</option>
+          <option>The Full Day</option>
+          <option>The Multi-Day Celebration</option>
+        </select>
+      </div>
+      <div class="field">
         <label>Tell me about your day</label>
         <textarea></textarea>
       </div>
       <button type="submit" class="submit-btn">Send Inquiry</button>
+      <div class="form-success" id="formSuccess">
+        <span class="gilt-rule"></span>
+        <h3>Received, with care.</h3>
+        <p>Thank you for writing. I'll read this myself and reply within 48 hours — usually sooner.</p>
+      </div>
     </form>
   </div>
 </section>
 
 <footer>
-  <span>© 2026 Sapphire Works. All rights reserved.</span>
-  <div class="foot-links">
-    <a href="#">Instagram</a>
-    <a href="#">Pinterest</a>
-    <a href="#contact">Contact</a>
-    <a href="gallery.html">Client Login</a>
+  <div class="foot-mark">SAPPHIRE WORKS</div>
+  <div class="foot-tag">Destination wedding &amp; elopement photography</div>
+  <div class="foot-bottom">
+    <span>© 2026 Sapphire Works. All rights reserved.</span>
+    <div class="foot-links">
+      <a href="#">Instagram</a>
+      <a href="#">Pinterest</a>
+      <a href="#contact">Contact</a>
+      <a href="gallery.html">Client Login</a>
+    </div>
   </div>
 </footer>
 
@@ -889,11 +1390,15 @@
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const isTouch = window.matchMedia('(hover:none)').matches || window.innerWidth <= 860;
 
-  // ---------- LENIS SMOOTH SCROLL ----------
+  window.addEventListener('load', () => {
+    setTimeout(() => document.getElementById('preloader').classList.add('done'), reduceMotion ? 0 : 900);
+  });
+  setTimeout(() => document.getElementById('preloader').classList.add('done'), 2800);
+
   let lenis;
   if(!reduceMotion && !isTouch){
     lenis = new Lenis({
-      duration: 1.1,
+      duration: 1.15,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true
     });
@@ -901,7 +1406,6 @@
     gsap.ticker.add((time) => lenis.raf(time * 1000));
     gsap.ticker.lagSmoothing(0);
 
-    // keep in-page anchor links working with Lenis
     document.querySelectorAll('a[href^="#"]').forEach(a => {
       a.addEventListener('click', e => {
         const target = document.querySelector(a.getAttribute('href'));
@@ -913,13 +1417,16 @@
     });
   }
 
-  // Nav scroll state
   const nav = document.getElementById('nav');
-  window.addEventListener('scroll', () => {
+  const progress = document.getElementById('progress');
+  function onScroll(){
     nav.classList.toggle('scrolled', window.scrollY > 60);
-  });
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    progress.style.width = (max > 0 ? (window.scrollY / max) * 100 : 0) + '%';
+  }
+  window.addEventListener('scroll', onScroll);
+  onScroll();
 
-  // ---------- CUSTOM CURSOR ----------
   const cursor = document.getElementById('cursor');
   const cursorLabel = document.getElementById('cursorLabel');
   if(!isTouch){
@@ -931,17 +1438,17 @@
       tile.addEventListener('mouseenter', () => cursor.classList.add('grow'));
       tile.addEventListener('mouseleave', () => cursor.classList.remove('grow'));
     });
-    document.querySelectorAll('a, button, input, textarea').forEach(el => {
+    document.querySelectorAll('a, button, input, textarea, select').forEach(el => {
       el.addEventListener('mouseenter', () => cursor.style.opacity = '0.5');
       el.addEventListener('mouseleave', () => cursor.style.opacity = '1');
     });
   }
 
-  // ---------- LIGHTBOX ----------
   const allTiles = Array.from(document.querySelectorAll('.tile img'));
   const lightbox = document.getElementById('lightbox');
   const lightboxImg = document.getElementById('lightboxImg');
   const lightboxCounter = document.getElementById('lightboxCounter');
+  const lightboxCap = document.getElementById('lightboxCap');
   let lbIndex = 0;
 
   function openLightbox(i){
@@ -957,9 +1464,11 @@
     document.body.style.overflow = '';
   }
   function updateLightbox(){
-    const fullSrc = allTiles[lbIndex].src.replace(/w=\d+/, 'w=1600');
-    lightboxImg.src = fullSrc;
+    const img = allTiles[lbIndex];
+    lightboxImg.src = img.src.replace(/w=\d+/, 'w=1600');
     lightboxCounter.textContent = (lbIndex + 1) + ' / ' + allTiles.length;
+    const cap = img.closest('.tile')?.dataset.cap || '';
+    lightboxCap.textContent = cap;
   }
   allTiles.forEach((img, i) => {
     img.parentElement.addEventListener('click', () => openLightbox(i));
@@ -975,13 +1484,11 @@
     if(e.key === 'ArrowLeft') document.getElementById('lightboxPrev').click();
   });
 
-  // Mobile nav toggle
   const navToggle = document.getElementById('navToggle');
   const navLinks = document.getElementById('navLinks');
   navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
   navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
 
-  // Portfolio alternating horizontal scroll
   if(!reduceMotion){
     const rows = [
       { el: document.getElementById('row1'), dir: -1 },
@@ -1001,15 +1508,13 @@
       });
     });
 
-    // Hero image subtle zoom-out on load
     gsap.to('.hero-img img', {
       scale: 1,
       duration: 1.8,
       ease: 'power2.out'
     });
 
-    // Fade-up reveals
-    gsap.utils.toArray('.about-text, .services-head, .portfolio-head, .contact-info, form').forEach(el => {
+    gsap.utils.toArray('.about-text, .featured-copy, .services-head, .portfolio-head, .experience-head, .contact-info, form, .faq-head, .step').forEach(el => {
       gsap.from(el, {
         y: 30,
         opacity: 0,
@@ -1020,12 +1525,12 @@
     });
   }
 
-  // Testimonial rotator
   const slides = document.querySelectorAll('.testi-slide');
   const dotsWrap = document.getElementById('testiDots');
   slides.forEach((_, i) => {
     const dot = document.createElement('button');
     if(i === 0) dot.classList.add('active');
+    dot.setAttribute('aria-label', 'Show testimonial ' + (i + 1));
     dot.addEventListener('click', () => showSlide(i));
     dotsWrap.appendChild(dot);
   });
@@ -1042,10 +1547,18 @@
     showSlide((current + 1) % slides.length);
   }, 5500);
 
-  // Contact form (prevent actual submit in prototype)
-  document.querySelector('form').addEventListener('submit', e => {
+  document.querySelectorAll('.faq-q').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.parentElement;
+      const wasOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if(!wasOpen) item.classList.add('open');
+    });
+  });
+
+  document.getElementById('inquiryForm').addEventListener('submit', e => {
     e.preventDefault();
-    alert('Thanks! This form is a prototype — connect it to Firebase or an email service to go live.');
+    document.getElementById('formSuccess').classList.add('show');
   });
 </script>
 

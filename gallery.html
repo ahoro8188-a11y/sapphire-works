@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Client Gallery — Sapphire Works</title>
+<meta name="description" content="Private client gallery for Sapphire Works destination wedding photography.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;1,6..96,400&display=swap" rel="stylesheet">
@@ -16,6 +17,7 @@
     --chocolate:#55423C;
     --sienna:#3D1417;
     --raspberry:#180F0D;
+    --gilt:#B89B72;
   }
   *{margin:0;padding:0;box-sizing:border-box;}
   body{
@@ -28,11 +30,15 @@
   h1,h2,h3{font-family:'Bodoni Moda',serif;font-weight:500;line-height:1.15;}
   a{color:inherit;text-decoration:none;}
   img{display:block;width:100%;height:100%;object-fit:cover;}
+  .grain{
+    position:fixed;inset:0;pointer-events:none;z-index:999;opacity:0.045;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
 
-  /* ---------- TOP BAR ---------- */
   .topbar{
     display:flex;justify-content:space-between;align-items:center;
     padding:28px 5vw;
+    position:relative;z-index:2;
   }
   .logotype{
     font-family:'Bodoni Moda',serif;
@@ -47,14 +53,14 @@
     color:var(--dove);
     display:flex;align-items:center;gap:8px;
   }
+  .back-link:hover{color:var(--gilt);}
 
-  /* ---------- LOGIN VIEW ---------- */
   #loginView{
     min-height:78vh;
     display:flex;
     align-items:center;
     justify-content:center;
-    padding:40px 5vw;
+    padding:40px 5vw 80px;
   }
   .login-card{
     max-width:420px;
@@ -65,8 +71,7 @@
     font-size:0.7rem;
     letter-spacing:0.26em;
     text-transform:uppercase;
-    color:var(--dove);
-    opacity:0.75;
+    color:var(--gilt);
     display:block;
     margin-bottom:20px;
   }
@@ -104,7 +109,7 @@
     outline:none;
     transition:border-color 0.3s ease;
   }
-  .login-field input:focus{border-color:var(--paper);}
+  .login-field input:focus{border-color:var(--gilt);}
   .login-btn{
     width:100%;
     background:var(--paper);
@@ -118,7 +123,7 @@
     margin-top:10px;
     transition:background 0.3s ease, transform 0.3s ease;
   }
-  .login-btn:hover{background:var(--dove);transform:translateY(-2px);}
+  .login-btn:hover{background:var(--gilt);transform:translateY(-2px);}
   .login-btn:disabled{opacity:0.5;cursor:not-allowed;transform:none;}
   .login-error{
     color:#D98072;
@@ -134,7 +139,6 @@
     line-height:1.6;
   }
 
-  /* ---------- GALLERY VIEW ---------- */
   #galleryView{display:none;background:var(--cream);min-height:100vh;color:var(--chocolate);}
   .gallery-header{
     padding:100px 5vw 60px;
@@ -144,7 +148,7 @@
   }
   .gallery-header .eyebrow{
     font-size:0.7rem;letter-spacing:0.26em;text-transform:uppercase;
-    color:var(--dove);opacity:0.8;display:block;margin-bottom:20px;
+    color:var(--gilt);display:block;margin-bottom:20px;
   }
   .gallery-header h1{
     font-size:clamp(2.2rem,4.5vw,3.6rem);
@@ -173,7 +177,7 @@
   .gallery-grid{
     display:grid;
     grid-template-columns:repeat(3, 1fr);
-    gap:6px;
+    gap:8px;
     padding:0 5vw 120px;
   }
   .gallery-grid .g-tile{
@@ -188,25 +192,45 @@
     .gallery-grid{grid-template-columns:repeat(2,1fr);}
   }
 
-  .logout-link{
-    font-size:0.72rem;letter-spacing:0.14em;text-transform:uppercase;
-    color:var(--dove);cursor:pointer;background:none;border:none;
+  .lightbox{
+    position:fixed;inset:0;
+    background:rgba(24,15,13,0.96);
+    z-index:2000;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.4s ease;
   }
+  .lightbox.open{opacity:1;pointer-events:auto;}
+  .lightbox img{
+    max-width:86vw;max-height:82vh;width:auto;height:auto;object-fit:contain;
+  }
+  .lightbox button{
+    position:absolute;background:none;border:none;color:var(--paper);cursor:pointer;
+    letter-spacing:0.18em;text-transform:uppercase;font-size:0.72rem;
+  }
+  .lb-close{top:28px;right:5vw;}
+  .lb-prev{left:4vw;top:50%;transform:translateY(-50%);}
+  .lb-next{right:4vw;top:50%;transform:translateY(-50%);}
+  .lb-count{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);color:var(--gilt);font-size:0.72rem;letter-spacing:0.18em;}
 </style>
 </head>
 <body>
 
-<div class="topbar">
+<div class="grain"></div>
+
+<div class="topbar" id="topbar">
   <a href="index.html" class="logotype">SAPPHIRE WORKS</a>
   <a href="index.html" class="back-link">← Back to site</a>
 </div>
 
-<!-- LOGIN -->
 <section id="loginView">
   <div class="login-card">
-    <span class="eyebrow">Client Gallery</span>
+    <span class="eyebrow">Private Collection</span>
     <h1>Your Story, Delivered.</h1>
-    <p>Enter the email and password sent to you after your session to view and download your private gallery.</p>
+    <p>Enter the email and password sent after your session to view and download your gallery.</p>
     <form id="loginForm">
       <div class="login-field">
         <label>Email</label>
@@ -216,14 +240,13 @@
         <label>Password</label>
         <input type="password" id="loginPassword" required>
       </div>
-      <button type="submit" class="login-btn" id="loginBtn">View Gallery</button>
+      <button type="submit" class="login-btn" id="loginBtn">Enter Gallery</button>
       <div class="login-error" id="loginError"></div>
     </form>
-    <p class="login-hint">Can't find your access details? Email hello@sapphireworks.com and we'll resend them.</p>
+    <p class="login-hint">Can't find your access details? Email hello@sapphireworks.com and we'll resend them.<br>Preview: demo@sapphireworks.com / demo123</p>
   </div>
 </section>
 
-<!-- GALLERY -->
 <section id="galleryView">
   <div class="gallery-header">
     <span class="eyebrow">Welcome Back</span>
@@ -234,17 +257,21 @@
     <span class="gallery-count" id="galleryCount"></span>
     <div class="toolbar-actions">
       <button class="toolbar-btn" id="downloadAllBtn">Download All</button>
-      <button class="toolbar-btn logout-link" id="logoutBtn">Log Out</button>
+      <button class="toolbar-btn" id="logoutBtn">Log Out</button>
     </div>
   </div>
   <div class="gallery-grid" id="galleryGrid"></div>
 </section>
 
+<div class="lightbox" id="lightbox">
+  <button class="lb-close" id="lbClose">Close</button>
+  <button class="lb-prev" id="lbPrev" aria-label="Previous">←</button>
+  <img id="lbImg" alt="Gallery photo">
+  <button class="lb-next" id="lbNext" aria-label="Next">→</button>
+  <span class="lb-count" id="lbCount"></span>
+</div>
+
 <script type="module">
-  // ============================================================
-  // FIREBASE SETUP — Angela, replace this block with your project's config
-  // (Firebase console → Project settings → General → Your apps → SDK config)
-  // ============================================================
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
   import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
   import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
@@ -262,43 +289,49 @@
   const auth = getAuth(app);
   const db = getFirestore(app);
 
-  // ============================================================
-  // HOW THIS WORKS (for Angela):
-  // 1. In Firebase Console → Authentication → enable Email/Password sign-in.
-  // 2. For each couple, manually add a user under Authentication → Users
-  //    (their email + a password you generate and send them after the wedding).
-  // 3. In Firestore, create a collection called "galleries".
-  //    Each document ID = the couple's Firebase Auth UID (find this in the
-  //    Authentication tab after creating their login).
-  //    Document fields:
-  //      names: "Renata & Josh"
-  //      date: "March 2026 · Amalfi Coast"
-  //      images: ["https://...jpg", "https://...jpg", ...]
-  //      downloadUrl: "https://your-drive-or-wetransfer-link.com"
-  // 4. That's it — when they log in, this page pulls their doc by UID
-  //    and renders their photos. Every couple only ever sees their own gallery.
-  // ============================================================
-
   const loginForm = document.getElementById('loginForm');
   const loginBtn = document.getElementById('loginBtn');
   const loginError = document.getElementById('loginError');
   const loginView = document.getElementById('loginView');
   const galleryView = document.getElementById('galleryView');
+  const topbar = document.getElementById('topbar');
+
+  let galleryImages = [];
+  let lbIndex = 0;
+  const lightbox = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lbImg');
+
+  function openLb(i){
+    lbIndex = i;
+    lbImg.src = galleryImages[lbIndex].replace(/w=\d+/, 'w=1600');
+    document.getElementById('lbCount').textContent = (lbIndex + 1) + ' / ' + galleryImages.length;
+    lightbox.classList.add('open');
+  }
+  function closeLb(){ lightbox.classList.remove('open'); }
+  document.getElementById('lbClose').onclick = closeLb;
+  document.getElementById('lbNext').onclick = () => openLb((lbIndex + 1) % galleryImages.length);
+  document.getElementById('lbPrev').onclick = () => openLb((lbIndex - 1 + galleryImages.length) % galleryImages.length);
+  lightbox.addEventListener('click', e => { if(e.target === lightbox) closeLb(); });
+  document.addEventListener('keydown', e => {
+    if(!lightbox.classList.contains('open')) return;
+    if(e.key === 'Escape') closeLb();
+    if(e.key === 'ArrowRight') document.getElementById('lbNext').click();
+    if(e.key === 'ArrowLeft') document.getElementById('lbPrev').click();
+  });
 
   loginForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     loginError.textContent = '';
     loginBtn.disabled = true;
-    loginBtn.textContent = 'Checking...';
+    loginBtn.textContent = 'Opening...';
     const email = document.getElementById('loginEmail').value.trim();
     const password = document.getElementById('loginPassword').value;
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      // onAuthStateChanged below handles showing the gallery
     } catch (err) {
       loginError.textContent = "That email or password doesn't match our records. Double check your details or reach out to us.";
       loginBtn.disabled = false;
-      loginBtn.textContent = 'View Gallery';
+      loginBtn.textContent = 'Enter Gallery';
     }
   });
 
@@ -312,8 +345,6 @@
         const snap = await getDoc(doc(db, 'galleries', user.uid));
         if (snap.exists()) {
           renderGallery(snap.data());
-          loginView.style.display = 'none';
-          galleryView.style.display = 'block';
         } else {
           loginError.textContent = "We couldn't find a gallery linked to this account yet. Contact us and we'll set it up.";
           signOut(auth);
@@ -324,8 +355,9 @@
     } else {
       loginView.style.display = 'flex';
       galleryView.style.display = 'none';
+      topbar.style.display = 'flex';
       loginBtn.disabled = false;
-      loginBtn.textContent = 'View Gallery';
+      loginBtn.textContent = 'Enter Gallery';
     }
   });
 
@@ -333,28 +365,27 @@
     document.getElementById('coupleNames').textContent = data.names || 'Your Gallery';
     document.getElementById('galleryDate').textContent = data.date || '';
     const images = data.images || [];
-    document.getElementById('galleryCount').textContent = images.length + ' photos';
+    galleryImages = images;
+    document.getElementById('galleryCount').textContent = images.length + ' photographs';
     const grid = document.getElementById('galleryGrid');
     grid.innerHTML = '';
-    images.forEach(src => {
+    images.forEach((src, i) => {
       const tile = document.createElement('div');
       tile.className = 'g-tile';
-      tile.innerHTML = `<img src="${src}" alt="Wedding photo">`;
-      tile.addEventListener('click', () => window.open(src, '_blank'));
+      tile.innerHTML = `<img src="${src}" alt="Wedding photograph">`;
+      tile.addEventListener('click', () => openLb(i));
       grid.appendChild(tile);
     });
+    loginView.style.display = 'none';
+    galleryView.style.display = 'block';
+    topbar.style.display = 'none';
     const downloadBtn = document.getElementById('downloadAllBtn');
     downloadBtn.onclick = () => {
-      if(data.downloadUrl) window.open(data.downloadUrl, '_blank');
-      else alert('No download link set for this gallery yet.');
+      if(data.downloadUrl && data.downloadUrl !== '#') window.open(data.downloadUrl, '_blank');
+      else alert('A full-resolution download link will appear here once your files are prepared.');
     };
   }
 
-  // ------------------------------------------------------------
-  // DEMO MODE — remove this block once your real Firebase project
-  // is connected. It just lets you preview the gallery UI without
-  // Firebase set up yet, using the "demo" / "demo123" login below.
-  // ------------------------------------------------------------
   const DEMO_MODE = true;
   if (DEMO_MODE) {
     loginForm.addEventListener('submit', function demoHandler(e){
@@ -379,8 +410,6 @@
           ],
           downloadUrl: '#'
         });
-        loginView.style.display = 'none';
-        galleryView.style.display = 'block';
       }
     }, true);
   }
