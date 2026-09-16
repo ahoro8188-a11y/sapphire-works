@@ -473,17 +473,18 @@
     width:max-content;
     will-change:transform;
   }
+  /* CSS fallback if JS/GSAP is late; JS takes over with a faster loop */
   .portfolio-row.row-1.is-looping,
   .portfolio-row.row-3.is-looping{
-    animation:rowLeft 48s linear infinite;
+    animation:rowLeft 22s linear infinite;
   }
   .portfolio-row.row-2.is-looping{
-    animation:rowRight 42s linear infinite;
+    animation:rowRight 18s linear infinite;
   }
-  .portfolio-row.row-3.is-looping{animation-duration:54s;}
-  .portfolio-row-wrap:hover .portfolio-row,
+  .portfolio-row.row-3.is-looping{animation-duration:26s;}
+  .portfolio-row.js-loop,
   .portfolio-row.paused{
-    animation-play-state:paused;
+    animation:none !important;
   }
   @keyframes rowLeft{
     from{transform:translateX(0);}
@@ -1570,7 +1571,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lenis/1.1.13/lenis.min.js"></script>
 <script>
-  gsap.registerPlugin(ScrollTrigger);
+  if (window.gsap && window.ScrollTrigger) gsap.registerPlugin(ScrollTrigger);
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const isTouch = window.matchMedia('(hover:none)').matches || window.innerWidth <= 860;
 
@@ -1615,11 +1616,47 @@
     src: tile.querySelector('img').getAttribute('src'),
     cap: tile.dataset.cap || ''
   }));
-  document.querySelectorAll('.portfolio-row').forEach(row => {
-    if(!reduceMotion){
+
+  const rowTweens = [];
+  function startPortfolioLoops(){
+    const specs = [
+      { el: document.getElementById('row1'), dir: -1, dur: 20 },
+      { el: document.getElementById('row2'), dir: 1, dur: 16 },
+      { el: document.getElementById('row3'), dir: -1, dur: 24 }
+    ];
+    specs.forEach(spec => {
+      const row = spec.el;
+      if(!row || row.dataset.looped) return;
+      row.dataset.looped = '1';
+      if(reduceMotion) return;
       row.insertAdjacentHTML('beforeend', row.innerHTML);
       row.classList.add('is-looping');
-    }
+      const distance = () => row.scrollWidth / 2;
+      if(window.gsap){
+        row.classList.add('js-loop');
+        const tween = gsap.fromTo(row,
+          { x: spec.dir === 1 ? -distance() : 0 },
+          {
+            x: spec.dir === 1 ? 0 : -distance(),
+            duration: spec.dur,
+            ease: 'none',
+            repeat: -1,
+            force3D: true
+          }
+        );
+        rowTweens.push(tween);
+        row.querySelectorAll('.tile').forEach(tile => {
+          tile.addEventListener('mouseenter', () => tween.pause());
+          tile.addEventListener('mouseleave', () => {
+            if(!document.getElementById('lightbox')?.classList.contains('open')) tween.resume();
+          });
+        });
+      }
+    });
+  }
+  startPortfolioLoops();
+  window.addEventListener('load', () => {
+    rowTweens.forEach(t => t && t.invalidate && t.invalidate());
   });
 
   const cursor = document.getElementById('cursor');
@@ -1649,6 +1686,7 @@
     document.querySelectorAll('.portfolio-row').forEach(row => {
       row.classList.toggle('paused', pause);
     });
+    rowTweens.forEach(t => pause ? t.pause() : t.resume());
   }
   function openLightbox(i){
     lbIndex = i;
