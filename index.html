@@ -185,8 +185,19 @@
   .hero-img{position:absolute;inset:0;}
   .hero-img img{
     width:100%;height:100%;object-fit:cover;
-    transform:scale(1.08);
+    transform:scale(1.16);
+    will-change:transform;
+    filter:saturate(0.88) contrast(1.04);
   }
+  .letterbox{
+    position:absolute;left:0;right:0;
+    height:38px;
+    background:var(--raspberry);
+    z-index:3;
+    pointer-events:none;
+  }
+  .letterbox.top{top:0;}
+  .letterbox.bottom{bottom:0;}
   .hero::before{
     content:'';
     position:absolute;inset:0 0 auto 0;height:200px;z-index:1;
@@ -227,8 +238,8 @@
   }
   .scroll-cue{
     position:absolute;
-    bottom:36px;right:5vw;
-    z-index:2;
+    bottom:52px;right:5vw;
+    z-index:4;
     display:flex;
     flex-direction:column;
     align-items:center;
@@ -617,6 +628,35 @@
     padding-bottom:4px;
   }
 
+  /* ---------- HEIRLOOM ALBUM ---------- */
+  .heirloom{
+    background:var(--paper);
+    padding:0 0 80px;
+  }
+  .heirloom-grid{
+    display:grid;
+    grid-template-columns:0.95fr 1.05fr;
+    max-width:1240px;
+    margin:0 auto;
+    min-height:560px;
+  }
+  .heirloom-img{min-height:520px;overflow:hidden;}
+  .heirloom-copy{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    padding:80px 7vw;
+  }
+  .heirloom-copy h2{
+    font-size:clamp(2.2rem,3.6vw,3.2rem);
+    margin-bottom:22px;
+  }
+  .heirloom-copy p{
+    line-height:1.85;
+    max-width:440px;
+    margin-bottom:22px;
+  }
+
   /* ---------- TESTIMONIALS ---------- */
   .testimonials{
     background:var(--raspberry);
@@ -839,6 +879,12 @@
     margin:16px 0 12px;
   }
   .form-success p{line-height:1.7;max-width:360px;}
+  .form-error{
+    font-size:0.85rem;
+    color:#8A3B32;
+    min-height:18px;
+  }
+  .submit-btn:disabled{opacity:0.55;cursor:wait;transform:none;}
 
   /* ---------- FOOTER ---------- */
   footer{
@@ -899,8 +945,10 @@
     .nav-links a{color:var(--paper);font-size:0.95rem;}
     .nav-cta{color:var(--paper) !important;}
     .nav-toggle{display:block;}
-    .about, .package, .contact-grid{grid-template-columns:1fr;}
+    .about, .package, .contact-grid, .heirloom-grid{grid-template-columns:1fr;}
     .about-img{min-height:380px;order:-1;}
+    .heirloom-img{min-height:360px;order:-1;}
+    .letterbox{height:22px;}
     .package-stack .package:nth-child(even){direction:ltr;}
     .package-img{min-height:340px;}
     .form-row{grid-template-columns:1fr;}
@@ -1065,6 +1113,8 @@
   <div class="hero-img">
     <img src="https://images.pexels.com/photos/33434578/pexels-photo-33434578.jpeg?auto=compress&cs=tinysrgb&w=1920" alt="Destination wedding portrait">
   </div>
+  <div class="letterbox top"></div>
+  <div class="letterbox bottom"></div>
   <div class="hero-content">
     <div class="hero-meta"><span class="gilt-rule"></span> Worldwide · Booking 2027</div>
     <h1>Vows carried across oceans,<br>kept in light.</h1>
@@ -1266,6 +1316,27 @@
   </div>
 </section>
 
+<section class="heirloom" id="album">
+  <div class="heirloom-grid">
+    <div class="heirloom-img">
+      <img src="https://images.pexels.com/photos/30679828/pexels-photo-30679828.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Heirloom wedding album details">
+    </div>
+    <div class="heirloom-copy">
+      <span class="eyebrow">An Object to Keep</span>
+      <h2>The Heirloom Album</h2>
+      <p>A single, hand-bound volume designed after you've lived with the gallery — linen or silk, foil-stamped names, photographs that sit in the hands rather than on a screen.</p>
+      <ul class="package-list">
+        <li>12×12" flush-mount, 40 sides</li>
+        <li>Linen or silk cover, foil lettering</li>
+        <li>Designed together, 8–10 weeks after your gallery</li>
+        <li>One complimentary design revision</li>
+      </ul>
+      <span class="package-price">Starting at $890 · add to any collection</span>
+      <a href="#contact" class="text-link" data-collection="The Heirloom Album">Add to your inquiry</a>
+    </div>
+  </div>
+</section>
+
 <section class="testimonials">
   <span class="eyebrow on-dark">Kind Words</span>
   <div class="testi-track" id="testiTrack">
@@ -1334,40 +1405,45 @@
       </div>
     </div>
     <form id="inquiryForm">
+      <input type="hidden" name="_subject" value="New inquiry — Sapphire Works">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="text" name="_honey" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
       <div class="form-row">
         <div class="field">
           <label>Your Names</label>
-          <input type="text" required>
+          <input type="text" name="names" required>
         </div>
         <div class="field">
           <label>Email</label>
-          <input type="email" required>
+          <input type="email" name="email" required>
         </div>
       </div>
       <div class="form-row">
         <div class="field">
           <label>Wedding Date</label>
-          <input type="text" placeholder="DD / MM / YYYY">
+          <input type="text" name="date" placeholder="DD / MM / YYYY">
         </div>
         <div class="field">
           <label>Location</label>
-          <input type="text" placeholder="City, Country">
+          <input type="text" name="location" placeholder="City, Country">
         </div>
       </div>
       <div class="field">
         <label>Collection</label>
-        <select>
+        <select name="collection" id="collectionSelect">
           <option>Not sure yet</option>
           <option>The Elopement</option>
           <option>The Full Day</option>
           <option>The Multi-Day Celebration</option>
+          <option>The Heirloom Album</option>
         </select>
       </div>
       <div class="field">
         <label>Tell me about your day</label>
-        <textarea></textarea>
+        <textarea name="message"></textarea>
       </div>
-      <button type="submit" class="submit-btn">Send Inquiry</button>
+      <button type="submit" class="submit-btn" id="submitBtn">Send Inquiry</button>
+      <div class="form-error" id="formError"></div>
       <div class="form-success" id="formSuccess">
         <span class="gilt-rule"></span>
         <h3>Received, with care.</h3>
@@ -1517,13 +1593,12 @@
       });
     });
 
-    gsap.to('.hero-img img', {
-      scale: 1,
-      duration: 1.8,
-      ease: 'power2.out'
-    });
+    gsap.fromTo('.hero-img img',
+      { scale: 1.16, xPercent: -1.5 },
+      { scale: 1.05, xPercent: 1.5, duration: 22, ease: 'none' }
+    );
 
-    gsap.utils.toArray('.about-text, .featured-copy, .services-head, .portfolio-head, .experience-head, .contact-info, form, .faq-head, .step').forEach(el => {
+    gsap.utils.toArray('.about-text, .featured-copy, .services-head, .portfolio-head, .experience-head, .heirloom-copy, .contact-info, form, .faq-head, .step').forEach(el => {
       gsap.fromTo(el, { y: 30, opacity: 0 }, {
         y: 0,
         opacity: 1,
@@ -1565,9 +1640,35 @@
     });
   });
 
-  document.getElementById('inquiryForm').addEventListener('submit', e => {
+  document.querySelectorAll('[data-collection]').forEach(a => {
+    a.addEventListener('click', () => {
+      const sel = document.getElementById('collectionSelect');
+      if(sel) sel.value = a.dataset.collection;
+    });
+  });
+
+  document.getElementById('inquiryForm').addEventListener('submit', async e => {
     e.preventDefault();
-    document.getElementById('formSuccess').classList.add('show');
+    const form = e.currentTarget;
+    const btn = document.getElementById('submitBtn');
+    const err = document.getElementById('formError');
+    err.textContent = '';
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+    const data = Object.fromEntries(new FormData(form).entries());
+    try {
+      const res = await fetch('https://formsubmit.co/ajax/hello@sapphireworks.com', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      if(!res.ok) throw new Error('send failed');
+      document.getElementById('formSuccess').classList.add('show');
+    } catch (ex) {
+      err.textContent = 'The letter could not be sent just now. Email hello@sapphireworks.com directly and I will write back.';
+      btn.disabled = false;
+      btn.textContent = 'Send Inquiry';
+    }
   });
 </script>
 
