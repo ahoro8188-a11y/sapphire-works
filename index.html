@@ -187,10 +187,15 @@
     width:100%;height:100%;object-fit:cover;
     transform:scale(1.08);
   }
+  .hero::before{
+    content:'';
+    position:absolute;inset:0 0 auto 0;height:200px;z-index:1;
+    background:linear-gradient(180deg, rgba(24,15,13,0.5) 0%, transparent 100%);
+  }
   .hero::after{
     content:'';
     position:absolute;inset:0;
-    background:linear-gradient(180deg, rgba(24,15,13,0.22) 0%, rgba(24,15,13,0.04) 38%, rgba(24,15,13,0.72) 100%);
+    background:linear-gradient(180deg, rgba(24,15,13,0.12) 0%, rgba(24,15,13,0.04) 38%, rgba(24,15,13,0.72) 100%);
   }
   .hero-content{
     position:relative;
@@ -539,8 +544,8 @@
     min-height:520px;
     position:relative;
   }
-  .package:nth-child(even){direction:rtl;}
-  .package:nth-child(even) > *{direction:ltr;}
+  .package-stack .package:nth-child(even){direction:rtl;}
+  .package-stack .package:nth-child(even) > *{direction:ltr;}
   .package-img{height:100%;overflow:hidden;}
   .package-text{
     display:flex;
@@ -706,8 +711,10 @@
   }
   .faq-q i{
     font-style:normal;
-    font-size:1.4rem;
-    color:var(--gilt);
+    font-size:1.6rem;
+    line-height:1;
+    color:var(--sienna);
+    opacity:0.55;
     font-family:'Bodoni Moda',serif;
     transition:transform 0.3s ease;
   }
@@ -894,7 +901,7 @@
     .nav-toggle{display:block;}
     .about, .package, .contact-grid{grid-template-columns:1fr;}
     .about-img{min-height:380px;order:-1;}
-    .package:nth-child(even){direction:ltr;}
+    .package-stack .package:nth-child(even){direction:ltr;}
     .package-img{min-height:340px;}
     .form-row{grid-template-columns:1fr;}
     .foot-bottom{flex-direction:column;gap:16px;text-align:center;}
@@ -1205,6 +1212,7 @@
     <h2>Packages Built Around Your Day</h2>
   </div>
 
+  <div class="package-stack">
   <div class="package">
     <div class="package-img"><img src="https://images.pexels.com/photos/38922257/pexels-photo-38922257.jpeg?auto=compress&cs=tinysrgb&w=1000" alt="Elopement photography"></div>
     <div class="package-text">
@@ -1254,6 +1262,7 @@
       <span class="package-price">Starting at $6,200</span>
       <a href="#contact" class="text-link">Inquire about this collection</a>
     </div>
+  </div>
   </div>
 </section>
 
@@ -1515,12 +1524,12 @@
     });
 
     gsap.utils.toArray('.about-text, .featured-copy, .services-head, .portfolio-head, .experience-head, .contact-info, form, .faq-head, .step').forEach(el => {
-      gsap.from(el, {
-        y: 30,
-        opacity: 0,
+      gsap.fromTo(el, { y: 30, opacity: 0 }, {
+        y: 0,
+        opacity: 1,
         duration: 1,
         ease: 'power2.out',
-        scrollTrigger: { trigger: el, start: 'top 85%' }
+        scrollTrigger: { trigger: el, start: 'top 88%', once: true }
       });
     });
   }

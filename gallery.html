@@ -194,7 +194,7 @@
 
   .lightbox{
     position:fixed;inset:0;
-    background:rgba(24,15,13,0.96);
+    background:var(--raspberry);
     z-index:2000;
     display:flex;
     align-items:center;
@@ -204,8 +204,13 @@
     transition:opacity 0.4s ease;
   }
   .lightbox.open{opacity:1;pointer-events:auto;}
-  .lightbox img{
-    max-width:86vw;max-height:82vh;width:auto;height:auto;object-fit:contain;
+  .lightbox .lb-frame{
+    max-width:86vw;max-height:82vh;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .lightbox .lb-frame img{
+    width:auto;height:auto;max-width:86vw;max-height:82vh;
+    object-fit:contain;
   }
   .lightbox button{
     position:absolute;background:none;border:none;color:var(--paper);cursor:pointer;
@@ -266,7 +271,7 @@
 <div class="lightbox" id="lightbox">
   <button class="lb-close" id="lbClose">Close</button>
   <button class="lb-prev" id="lbPrev" aria-label="Previous">←</button>
-  <img id="lbImg" alt="Gallery photo">
+  <div class="lb-frame"><img id="lbImg" alt="Gallery photo"></div>
   <button class="lb-next" id="lbNext" aria-label="Next">→</button>
   <span class="lb-count" id="lbCount"></span>
 </div>
