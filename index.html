@@ -187,26 +187,29 @@
     width:100%;height:100%;object-fit:cover;
     transform:scale(1.16);
     will-change:transform;
-    filter:saturate(0.88) contrast(1.04);
+    filter:contrast(1.03);
   }
   .letterbox{
     position:absolute;left:0;right:0;
-    height:38px;
-    background:var(--raspberry);
+    height:28px;
+    background:linear-gradient(180deg, rgba(24,15,13,0.35), transparent);
     z-index:3;
     pointer-events:none;
   }
   .letterbox.top{top:0;}
-  .letterbox.bottom{bottom:0;}
+  .letterbox.bottom{
+    bottom:0;
+    background:linear-gradient(0deg, rgba(24,15,13,0.28), transparent);
+  }
   .hero::before{
     content:'';
-    position:absolute;inset:0 0 auto 0;height:200px;z-index:1;
-    background:linear-gradient(180deg, rgba(24,15,13,0.5) 0%, transparent 100%);
+    position:absolute;inset:0 0 auto 0;height:160px;z-index:1;
+    background:linear-gradient(180deg, rgba(24,15,13,0.28) 0%, transparent 100%);
   }
   .hero::after{
     content:'';
     position:absolute;inset:0;
-    background:linear-gradient(180deg, rgba(24,15,13,0.12) 0%, rgba(24,15,13,0.04) 38%, rgba(24,15,13,0.72) 100%);
+    background:linear-gradient(180deg, rgba(24,15,13,0.04) 0%, rgba(24,15,13,0) 42%, rgba(24,15,13,0.32) 100%);
   }
   .hero-content{
     position:relative;
@@ -227,14 +230,17 @@
     color:var(--paper);
     font-style:italic;
     font-weight:400;
+    text-shadow:0 2px 28px rgba(24,15,13,0.35);
   }
   .hero-content p{
     margin-top:26px;
     max-width:480px;
-    color:var(--dove);
+    color:var(--paper);
     font-size:1rem;
     line-height:1.7;
     font-weight:400;
+    text-shadow:0 1px 16px rgba(24,15,13,0.45);
+    opacity:0.92;
   }
   .scroll-cue{
     position:absolute;
@@ -448,20 +454,37 @@
 
   /* ---------- PORTFOLIO ---------- */
   .portfolio-section{
-    padding:150px 0 160px;
+    padding:96px 0 40px;
     background:var(--cream);
     overflow:hidden;
+    height:100vh;
+    min-height:640px;
+    box-sizing:border-box;
+    display:flex;
+    flex-direction:column;
   }
   .portfolio-head{
     text-align:center;
     padding:0 5vw;
-    margin-bottom:90px;
+    margin-bottom:36px;
+    flex-shrink:0;
   }
   .portfolio-head h2{font-size:clamp(2.2rem,4vw,3.4rem);}
+  .portfolio-hint{
+    display:block;
+    margin-top:14px;
+    font-size:0.68rem;
+    letter-spacing:0.2em;
+    text-transform:uppercase;
+    color:var(--gilt);
+  }
   .portfolio-rows{
     display:flex;
     flex-direction:column;
-    gap:24px;
+    gap:16px;
+    flex:1;
+    justify-content:center;
+    min-height:0;
   }
   .portfolio-row-wrap{
     overflow:hidden;
@@ -469,39 +492,20 @@
   }
   .portfolio-row{
     display:flex;
-    gap:24px;
+    gap:16px;
     width:max-content;
     will-change:transform;
   }
-  /* CSS fallback if JS/GSAP is late; JS takes over with a faster loop */
-  .portfolio-row.row-1.is-looping,
-  .portfolio-row.row-3.is-looping{
-    animation:rowLeft 22s linear infinite;
-  }
-  .portfolio-row.row-2.is-looping{
-    animation:rowRight 18s linear infinite;
-  }
-  .portfolio-row.row-3.is-looping{animation-duration:26s;}
-  .portfolio-row.js-loop,
-  .portfolio-row.paused{
-    animation:none !important;
-  }
-  @keyframes rowLeft{
-    from{transform:translateX(0);}
-    to{transform:translateX(-50%);}
-  }
-  @keyframes rowRight{
-    from{transform:translateX(-50%);}
-    to{transform:translateX(0);}
-  }
   .portfolio-row .tile{
-    width:340px;
-    height:440px;
+    width:min(32vw, 340px);
+    height:32vh;
+    max-height:360px;
+    min-height:200px;
     flex-shrink:0;
     overflow:hidden;
     position:relative;
   }
-  .portfolio-row.row-2 .tile{height:300px;}
+  .portfolio-row.row-2 .tile{height:22vh;max-height:250px;min-height:150px;}
   .portfolio-row .tile img{transition:transform 0.7s ease;}
   .portfolio-row .tile:hover img{transform:scale(1.06);}
   .tile figcaption{
@@ -1044,7 +1048,31 @@
     .heirloom-spread{height:280px;}
     .shot-a,.shot-c{width:150px;height:200px;}
     .shot-b{width:170px;height:230px;}
-    .letterbox{height:22px;}
+    .letterbox{height:16px;}
+    .hero::after{
+      background:linear-gradient(180deg, rgba(24,15,13,0.02) 0%, rgba(24,15,13,0) 36%, rgba(24,15,13,0.36) 100%);
+    }
+    .hero-content{
+      padding:0 6vw 72px;
+    }
+    .hero-content h1{
+      text-shadow:0 2px 22px rgba(24,15,13,0.55), 0 0 2px rgba(24,15,13,0.4);
+    }
+    .hero-content p{
+      color:var(--paper);
+      text-shadow:0 1px 14px rgba(24,15,13,0.55);
+    }
+    .portfolio-section{
+      height:auto;
+      min-height:100vh;
+      padding:88px 0 48px;
+    }
+    .portfolio-row .tile{
+      width:72vw;
+      height:28vh;
+      min-height:180px;
+    }
+    .portfolio-row.row-2 .tile{height:20vh;min-height:130px;}
     .package-stack .package:nth-child(even){direction:ltr;}
     .package-img{min-height:340px;}
     .form-row{grid-template-columns:1fr;}
@@ -1055,8 +1083,7 @@
 
   @media (prefers-reduced-motion: reduce){
     html{scroll-behavior:auto;}
-    .scroll-line::after,.preloader .bar span,.marquee-track,.availability .dot,
-    .portfolio-row.is-looping{animation:none;}
+    .scroll-line::after,.preloader .bar span,.marquee-track,.availability .dot{animation:none;}
   }
 
   /* ---------- CUSTOM CURSOR ---------- */
@@ -1283,6 +1310,7 @@
   <div class="portfolio-head">
     <span class="eyebrow">Selected Work</span>
     <h2>A Few Favorites</h2>
+    <span class="portfolio-hint">Scroll to walk the collection</span>
   </div>
   <div class="portfolio-rows">
     <div class="portfolio-row-wrap">
@@ -1617,47 +1645,55 @@
     cap: tile.dataset.cap || ''
   }));
 
-  const rowTweens = [];
-  function startPortfolioLoops(){
+  function initPinnedPortfolio(){
+    if(reduceMotion || !window.gsap || !window.ScrollTrigger) return;
+    const section = document.querySelector('.portfolio-section');
     const specs = [
-      { el: document.getElementById('row1'), dir: -1, dur: 20 },
-      { el: document.getElementById('row2'), dir: 1, dur: 16 },
-      { el: document.getElementById('row3'), dir: -1, dur: 24 }
+      { el: document.getElementById('row1'), dir: -1 },
+      { el: document.getElementById('row2'), dir: 1 },
+      { el: document.getElementById('row3'), dir: -1 }
     ];
-    specs.forEach(spec => {
-      const row = spec.el;
-      if(!row || row.dataset.looped) return;
-      row.dataset.looped = '1';
-      if(reduceMotion) return;
-      row.insertAdjacentHTML('beforeend', row.innerHTML);
-      row.classList.add('is-looping');
-      const distance = () => row.scrollWidth / 2;
-      if(window.gsap){
-        row.classList.add('js-loop');
-        const tween = gsap.fromTo(row,
-          { x: spec.dir === 1 ? -distance() : 0 },
-          {
-            x: spec.dir === 1 ? 0 : -distance(),
-            duration: spec.dur,
-            ease: 'none',
-            repeat: -1,
-            force3D: true
-          }
-        );
-        rowTweens.push(tween);
-        row.querySelectorAll('.tile').forEach(tile => {
-          tile.addEventListener('mouseenter', () => tween.pause());
-          tile.addEventListener('mouseleave', () => {
-            if(!document.getElementById('lightbox')?.classList.contains('open')) tween.resume();
-          });
-        });
+    if(!section || specs.some(s => !s.el)) return;
+
+    const travelOf = (row) => Math.max(0, row.scrollWidth - window.innerWidth);
+
+    specs.forEach(s => {
+      gsap.set(s.el, { x: s.dir === 1 ? -travelOf(s.el) : 0 });
+    });
+
+    const maxTravel = () => Math.max(...specs.map(s => travelOf(s.el)), window.innerWidth * 0.8);
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: section,
+        start: 'top top',
+        end: () => '+=' + maxTravel(),
+        pin: true,
+        scrub: 0.65,
+        anticipatePin: 1,
+        invalidateOnRefresh: true
       }
     });
+
+    specs.forEach(s => {
+      tl.fromTo(s.el,
+        { x: () => s.dir === 1 ? -travelOf(s.el) : 0 },
+        { x: () => s.dir === 1 ? 0 : -travelOf(s.el), ease: 'none', duration: 1 },
+        0
+      );
+    });
   }
-  startPortfolioLoops();
-  window.addEventListener('load', () => {
-    rowTweens.forEach(t => t && t.invalidate && t.invalidate());
+
+  const portfolioImgs = Array.from(document.querySelectorAll('.portfolio-row img'));
+  Promise.all(portfolioImgs.map(img => img.complete ? Promise.resolve() : new Promise(res => {
+    img.addEventListener('load', res, { once: true });
+    img.addEventListener('error', res, { once: true });
+  }))).then(() => {
+    initPinnedPortfolio();
+    if(window.ScrollTrigger) ScrollTrigger.refresh();
   });
+  window.addEventListener('load', () => { if(window.ScrollTrigger) ScrollTrigger.refresh(); });
+  window.addEventListener('resize', () => { if(window.ScrollTrigger) ScrollTrigger.refresh(); });
 
   const cursor = document.getElementById('cursor');
   const cursorLabel = document.getElementById('cursorLabel');
@@ -1683,10 +1719,7 @@
   let lbIndex = 0;
 
   function pauseRows(pause){
-    document.querySelectorAll('.portfolio-row').forEach(row => {
-      row.classList.toggle('paused', pause);
-    });
-    rowTweens.forEach(t => pause ? t.pause() : t.resume());
+    if(lenis) pause ? lenis.stop() : lenis.start();
   }
   function openLightbox(i){
     lbIndex = i;
